@@ -88,6 +88,7 @@ class LLMClient(Protocol):
         messages: list[dict[str, Any]],
         tools: list[dict[str, Any]] | None = None,
         seed: int | None = None,
+        max_tokens: int | None = None,
     ) -> LLMResponse:
         """Execute a single chat completion turn."""
         ...
@@ -126,6 +127,7 @@ class FakeLLM:
         messages: list[dict[str, Any]],
         tools: list[dict[str, Any]] | None = None,
         seed: int | None = None,
+        max_tokens: int | None = None,
     ) -> LLMResponse:
         """Return next scripted response or raise sanitized LLMError."""
         self.calls.append(
@@ -133,6 +135,7 @@ class FakeLLM:
                 "messages": list(messages),
                 "tools": tools,
                 "seed": seed,
+                "max_tokens": max_tokens,
             }
         )
         if self._index >= len(self._script):
@@ -207,6 +210,7 @@ class OpenAICompatClient:
         messages: list[dict[str, Any]],
         tools: list[dict[str, Any]] | None = None,
         seed: int | None = None,
+        max_tokens: int | None = None,
     ) -> LLMResponse:
         """Call chat.completions.create and normalize response; scrub secrets on error."""
         if not self._api_key:
@@ -222,6 +226,8 @@ class OpenAICompatClient:
             kwargs["tools"] = tools
         if seed is not None:
             kwargs["seed"] = seed
+        if max_tokens is not None:
+            kwargs["max_tokens"] = max_tokens
 
         try:
             response = self._client.chat.completions.create(**kwargs)

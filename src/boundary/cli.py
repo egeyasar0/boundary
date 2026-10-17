@@ -2,13 +2,15 @@
 
 from __future__ import annotations
 
+import time
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Any
 
 import typer
 from rich.console import Console
 
 from boundary.llm import DEFAULT_TIMEOUT_SECONDS, LLMClient, OpenAICompatClient
+from boundary.models import sanitize_error_message
 from boundary.report import render_report, summarize_run
 from boundary.runner import run_suite
 from boundary.tasks import load_tasks
@@ -19,6 +21,24 @@ app = typer.Typer(
     help="Measure whether an agent system needs sub-agent boundaries.",
     add_completion=False,
 )
+
+CHECK_DUMMY_TOOLS: list[dict[str, Any]] = [
+    {
+        "type": "function",
+        "function": {
+            "name": "ping_tool",
+            "description": "Dummy probe tool for verifying native tool calling.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "echo": {"type": "string", "description": "Echo payload."},
+                },
+                "required": ["echo"],
+                "additionalProperties": False,
+            },
+        },
+    }
+]
 
 
 def create_llm_client(
@@ -119,6 +139,64 @@ def report_cmd(
     run_id = run_path.stem if run_path.is_file() else run_path.name
     summary = summarize_run(traces, run_id=run_id)
     render_report(summary, console=console)
+
+
+@app.command("check")
+def check_cmd(
+    model: Annotated[
+        str | None,
+        typer.Option("--model", help="Model name (overrides BOUNDARY_MODEL)."),
+    ] = None,
+    base_url: Annotated[
+        str | None,
+        typer.Option(
+            "--base-url",
+            help="OpenAI-compatible base URL (overrides BOUNDARY_BASE_URL).",
+        ),
+    ] = None,
+    timeout: Annotated[
+        float,
+        typer.Option("--timeout", min=0.1, help="LLM request timeout in seconds."),
+    ] = DEFAULT_TIMEOUT_SECONDS,
+) -> None:
+    """Verify LLM endpoint reachability and native tool-calling support."""
+    console = Console()
+    llm = create_llm_client(model=model, base_url=base_url, timeout=timeout)
+
+    t0 = time.perf_counter()
+    try:
+        llm.complete(
+            messages=[{"role": "user", "content": "Reply with OK."}],
+            max_tokens=16,
+        )
+    except Exception as exc:
+        sanitized = sanitize_error_message(str(exc))
+        console.print(f"FAIL: {sanitized}")
+        raise typer.Exit(code=1) from None
+
+    latency_ms = max(0, int((time.perf_counter() - t0) * 1000))
+    console.print(f"OK ({latency_ms} ms)")
+
+    try:
+        tool_resp = llm.complete(
+            messages=[{"role": "user", "content": "Call ping_tool with echo='ok'."}],
+            tools=CHECK_DUMMY_TOOLS,
+            max_tokens=64,
+        )
+    except Exception as exc:
+        sanitized = sanitize_error_message(str(exc))
+        console.print(f"tool calling: FAIL ({sanitized})")
+        raise typer.Exit(code=1) from None
+
+    has_valid_tool_call = any(
+        tc.name == "ping_tool" and "__json_error__" not in tc.arguments
+        for tc in tool_resp.tool_calls
+    )
+    if has_valid_tool_call:
+        console.print("tool calling: OK")
+    else:
+        console.print("tool calling: FAIL")
+        raise typer.Exit(code=1)
 
 
 if __name__ == "__main__":

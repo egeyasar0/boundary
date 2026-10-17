@@ -233,6 +233,7 @@ def test_runner_creates_trace_file_at_start_and_preserves_completed_on_interrupt
             messages: list[dict[str, object]],
             tools: list[dict[str, object]] | None = None,
             seed: int | None = None,
+            max_tokens: int | None = None,
         ) -> LLMResponse:
             self.call_count += 1
             if self.call_count == 1:
@@ -301,6 +302,76 @@ def test_report_missing_or_empty_traces_and_last_error_display(tmp_path: Path) -
     assert res_err_report.exit_code == 0, res_err_report.output
     assert "Son hata" in res_err_report.output
     assert f"Son hata: {long_error[:200]}" in res_err_report.output
+
+
+def test_cli_check_command_ok_and_failures(monkeypatch: pytest.MonkeyPatch) -> None:
+    runner = CliRunner()
+
+    # Case 1: Both chat and tool calling succeed
+    fake_ok = FakeLLM(
+        [
+            FakeTurn(
+                assistant_content="OK",
+                usage=Usage(prompt_tokens=10, completion_tokens=2, source="api"),
+            ),
+            FakeTurn(
+                tool_calls=[
+                    ToolCall(id="call_ping", name="ping_tool", arguments={"echo": "ok"})
+                ],
+                usage=Usage(prompt_tokens=25, completion_tokens=12, source="api"),
+            ),
+        ]
+    )
+    monkeypatch.setattr(cli_mod, "create_llm_client", lambda **kw: fake_ok)
+
+    res_ok = runner.invoke(
+        app,
+        ["check", "--model", "test-model", "--base-url", "http://127.0.0.1:9999/v1"],
+    )
+    assert res_ok.exit_code == 0, res_ok.output
+    assert "OK (" in res_ok.output
+    assert "ms)" in res_ok.output
+    assert "tool calling: OK" in res_ok.output
+    assert fake_ok.calls[0]["max_tokens"] == 16
+    assert fake_ok.calls[1]["max_tokens"] == 64
+
+    # Case 2: Chat request fails -> sanitized message, no leaked API key
+    fake_chat_err = FakeLLM(
+        [
+            RuntimeError(
+                "401 Unauthorized: Bearer sk-secret-check-key-999999"
+            )
+        ]
+    )
+    monkeypatch.setattr(cli_mod, "create_llm_client", lambda **kw: fake_chat_err)
+
+    res_chat_fail = runner.invoke(app, ["check", "--model", "test-model"])
+    assert res_chat_fail.exit_code == 1
+    assert "FAIL:" in res_chat_fail.output
+    assert "sk-secret-check-key-999999" not in res_chat_fail.output
+    assert "[REDACTED]" in res_chat_fail.output
+
+    # Case 3: Chat succeeds, but model does not emit a tool call
+    fake_tool_fail = FakeLLM(
+        [
+            FakeTurn(
+                assistant_content="OK",
+                usage=Usage(prompt_tokens=10, completion_tokens=2, source="api"),
+            ),
+            FakeTurn(
+                assistant_content="I cannot call tools.",
+                tool_calls=[],
+                usage=Usage(prompt_tokens=25, completion_tokens=8, source="api"),
+            ),
+        ]
+    )
+    monkeypatch.setattr(cli_mod, "create_llm_client", lambda **kw: fake_tool_fail)
+
+    res_tool_fail = runner.invoke(app, ["check", "--model", "test-model"])
+    assert res_tool_fail.exit_code == 1
+    assert "OK (" in res_tool_fail.output
+    assert "tool calling: FAIL" in res_tool_fail.output
+
 
 
 
