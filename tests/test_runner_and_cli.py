@@ -9,7 +9,7 @@ from typer.testing import CliRunner
 
 import boundary.cli as cli_mod
 from boundary.cli import app
-from boundary.llm import FakeLLM, FakeTurn, LLMClient
+from boundary.llm import FakeLLM, FakeTurn, LLMClient, LLMResponse
 from boundary.models import ToolCall, Usage
 from boundary.report import render_report, summarize_run
 from boundary.runner import run_suite
@@ -203,4 +203,60 @@ def test_runner_continues_after_timeout(tmp_path: Path) -> None:
     assert traces[0].error == "request timeout"
     assert traces[1].stop_reason == "final"
     assert traces[1].passed is True
+
+
+def test_runner_creates_trace_file_at_start_and_preserves_completed_on_interrupt(
+    tmp_path: Path,
+) -> None:
+    # 1. Even with empty task list, run_dir and traces.jsonl are created upfront
+    empty_dir, empty_traces = run_suite(
+        tasks=[],
+        llm=FakeLLM([]),
+        root_dir=FIXTURE_DIR,
+        out_dir=tmp_path / "runs",
+        run_id="run_empty_init",
+    )
+    assert empty_traces == []
+    assert (empty_dir / "traces.jsonl").exists()
+
+    # 2. If KeyboardInterrupt occurs during trial 2, trial 1 trace is already flushed to disk
+    tasks = load_tasks(TASKS_DIR)[:1]
+
+    class _InterruptOnSecondCallLLM:
+        model = "interrupt-llm"
+
+        def __init__(self) -> None:
+            self.call_count = 0
+
+        def complete(
+            self,
+            messages: list[dict[str, object]],
+            tools: list[dict[str, object]] | None = None,
+            seed: int | None = None,
+        ) -> LLMResponse:
+            self.call_count += 1
+            if self.call_count == 1:
+                return LLMResponse(
+                    assistant_content="7919 decorrelated-halcyon-v4",
+                    tool_calls=[],
+                    usage=Usage(prompt_tokens=60, completion_tokens=15, source="api"),
+                )
+            raise KeyboardInterrupt("User pressed Ctrl+C during trial 2")
+
+    interrupted_run_dir = tmp_path / "runs" / "run_interrupted"
+    with pytest.raises(KeyboardInterrupt):
+        run_suite(
+            tasks=tasks,
+            llm=_InterruptOnSecondCallLLM(),
+            root_dir=FIXTURE_DIR,
+            out_dir=tmp_path / "runs",
+            trials=2,
+            run_id="run_interrupted",
+        )
+
+    saved = read_traces(interrupted_run_dir)
+    assert len(saved) == 1
+    assert saved[0].trial == 1
+    assert saved[0].passed is True
+
 

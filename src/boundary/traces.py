@@ -18,12 +18,22 @@ def resolve_trace_file(path: Path | str) -> Path:
     return target
 
 
+def init_trace_file(path: Path | str) -> Path:
+    """Ensure the run directory and empty traces.jsonl file exist at run start."""
+    file_path = resolve_trace_file(path)
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    if not file_path.exists():
+        file_path.write_text("", encoding="utf-8", newline="\n")
+    return file_path
+
+
 def write_trace(path: Path | str, trace: Trace) -> Path:
-    """Append a single Trace record as one JSONL line."""
+    """Append a single Trace record as one JSONL line and flush immediately."""
     file_path = resolve_trace_file(path)
     file_path.parent.mkdir(parents=True, exist_ok=True)
     with file_path.open("a", encoding="utf-8", newline="\n") as fh:
         fh.write(trace.model_dump_json() + "\n")
+        fh.flush()
     return file_path
 
 

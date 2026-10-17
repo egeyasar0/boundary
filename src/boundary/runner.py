@@ -13,7 +13,7 @@ from boundary.llm import LLMClient
 from boundary.models import Checker, Task, Trace
 from boundary.tasks import evaluate_checker
 from boundary.tools import ToolSandbox
-from boundary.traces import write_trace
+from boundary.traces import init_trace_file, write_trace
 
 
 def _make_answer_checker(checker: Checker) -> Callable[[str | None], bool]:
@@ -52,7 +52,7 @@ def run_suite(
 
     resolved_run_id = run_id or generate_run_id()
     run_dir = Path(out_dir) / resolved_run_id
-    run_dir.mkdir(parents=True, exist_ok=True)
+    init_trace_file(run_dir)
 
     sandbox = ToolSandbox(root_dir)
     traces: list[Trace] = []
