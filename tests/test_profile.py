@@ -1,6 +1,10 @@
-"""Unit tests for the deterministic trace profiler (M7 — Signals S1, S2, S3)."""
+"""Unit tests for deterministic trace profiler (M7) and real trace verification (M8)."""
 
 from __future__ import annotations
+
+import re
+from collections import defaultdict
+from pathlib import Path
 
 import pytest
 
@@ -13,6 +17,12 @@ from boundary.profile import (
     find_independent_step_groups,
     profile_traces,
 )
+from boundary.tasks import load_tasks
+from boundary.traces import read_traces
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+BASELINE_SAMPLE_PATH = REPO_ROOT / "tests" / "data" / "baseline_sample.jsonl"
+TASKS_DIR = REPO_ROOT / "tasks" / "repo_qa"
 
 
 def _make_tool_result(call_id: str, content: str, tokens_est: int) -> ToolResult:
@@ -261,3 +271,45 @@ def test_signal_s3_independent_vs_dependent_steps() -> None:
     assert par_opps[0].steps_saved == 1
     assert par_opps[0].evidence["step_indices"] == [0, 1]
     assert par_opps[0].confidence == "low"
+
+
+def test_baseline_sample_security_and_real_trace_profiling() -> None:
+    """Verify M8 sample has no secrets, is deterministic, and separates needle carry_share."""
+    assert BASELINE_SAMPLE_PATH.exists()
+    raw_content = BASELINE_SAMPLE_PATH.read_text(encoding="utf-8")
+    secret_regex = re.compile(r"(?i)(nvapi|bearer\s+[a-z0-9._\-]+|sk-[a-z0-9]{6,}|api_key)")
+    assert secret_regex.search(raw_content) is None
+
+    traces = read_traces(BASELINE_SAMPLE_PATH)
+    assert len(traces) == 22
+
+    task_prompts = {t.id: t.prompt for t in load_tasks(TASKS_DIR)}
+    profile_run_1 = profile_traces(traces, task_prompts=task_prompts)
+    profile_run_2 = profile_traces(traces, task_prompts=task_prompts)
+
+    # 100% deterministic JSON output across runs
+    assert profile_run_1.model_dump_json(indent=2) == profile_run_2.model_dump_json(indent=2)
+
+    # Group carry_share by task_id
+    shares_by_task: dict[str, list[float]] = defaultdict(list)
+    for tp in profile_run_1.traces:
+        shares_by_task[tp.task_id].append(tp.carry_share)
+
+    mean_shares = {
+        tid: sum(vals) / len(vals) for tid, vals in shares_by_task.items()
+    }
+    needle_tasks = {"ledger-anomaly-needle", "routing-shard-needle"}
+    easy_tasks = set(mean_shares.keys()) - needle_tasks
+    assert needle_tasks.issubset(mean_shares.keys())
+    assert len(easy_tasks) == 6
+
+    min_needle_share = min(mean_shares[tid] for tid in needle_tasks)
+    max_easy_share = max(mean_shares[tid] for tid in easy_tasks)
+    assert min_needle_share > 0.60
+    assert max_easy_share < 0.35
+    assert min_needle_share > max_easy_share
+
+    # Every opportunity must have confidence="low"
+    assert len(profile_run_1.opportunities) > 0
+    for opp in profile_run_1.opportunities:
+        assert opp.confidence == "low"

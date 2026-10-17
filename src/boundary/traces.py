@@ -50,7 +50,15 @@ def write_traces(path: Path | str, traces: Iterable[Trace]) -> Path:
 def read_traces(path: Path | str) -> list[Trace]:
     """Read and validate all Trace records from a run directory or JSONL file."""
     target = Path(path)
-    file_path = target / TRACES_FILENAME if target.is_dir() else target
+    if target.is_dir():
+        file_path = target / TRACES_FILENAME
+        if not file_path.exists():
+            jsonl_files = sorted(target.glob("*.jsonl"))
+            if len(jsonl_files) == 1:
+                file_path = jsonl_files[0]
+    else:
+        file_path = target
+
     if not file_path.exists():
         raise FileNotFoundError(f"Trace file not found at '{file_path}'.")
 

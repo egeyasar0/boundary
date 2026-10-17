@@ -11,3 +11,4 @@ build/
 .env
 .env.*
 runs/
+tests/data/profile.json

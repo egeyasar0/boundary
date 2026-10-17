@@ -385,5 +385,45 @@ def test_cli_check_command_ok_and_failures(monkeypatch: pytest.MonkeyPatch) -> N
     assert "tool calling: FAIL" in res_tool_fail.output
 
 
+def test_cli_profile_and_report_max_budget_ratio(tmp_path: Path) -> None:
+    """Verify M8 `boundary profile` CLI and `boundary report` max used/budget ratio."""
+    import json
+    import shutil
+
+    runner = CliRunner()
+    sample_src = REPO_ROOT / "tests" / "data" / "baseline_sample.jsonl"
+    run_dir = tmp_path / "sample_run"
+    run_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(sample_src, run_dir / "traces.jsonl")
+
+    # 1. `boundary report` displays Max Used/Budget column and 145% overrun on routing-shard-needle
+    res_rep = runner.invoke(app, ["report", str(run_dir)])
+    assert res_rep.exit_code == 0, res_rep.output
+    assert "Max Used/Budget" in res_rep.output
+    assert "145%" in res_rep.output
+    assert "Max Used/Budget Ratio (aşım oranı): 145%" in res_rep.output
+
+    # 2. `boundary profile` renders Rich tables/summary and writes profile.json
+    res_prof = runner.invoke(app, ["profile", str(run_dir), "--top", "5"])
+    assert res_prof.exit_code == 0, res_prof.output
+    assert "Boundary Trace Profile" in res_prof.output
+    assert "routing-shard-needle" in res_prof.output
+    assert "ledger-anomaly-needle" in res_prof.output
+    assert "extract_subagent" in res_prof.output
+    assert "Profile Summary" in res_prof.output
+
+    profile_json_path = run_dir / "profile.json"
+    assert profile_json_path.exists()
+    parsed = json.loads(profile_json_path.read_text(encoding="utf-8"))
+    assert len(parsed["traces"]) == 22
+    assert len(parsed["opportunities"]) > 0
+
+    # 3. `boundary profile --json` outputs valid JSON matching profile.json
+    res_json = runner.invoke(app, ["profile", str(run_dir), "--json"])
+    assert res_json.exit_code == 0, res_json.output
+    parsed_stdout = json.loads(res_json.output)
+    assert parsed_stdout == parsed
+
+
 
 

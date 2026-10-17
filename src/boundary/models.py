@@ -135,6 +135,7 @@ class TaskSummary(BaseModel):
     insufficient_evidence: bool
     mean_tokens: float
     tool_token_share: float
+    max_budget_ratio: float = 0.0
     stop_reasons: dict[StopReason, int]
     last_error: str | None = None
 
@@ -153,6 +154,7 @@ class RunSummary(BaseModel):
     insufficient_evidence: bool
     mean_tokens: float
     tool_token_share: float
+    max_budget_ratio: float = 0.0
     stop_reasons: dict[StopReason, int]
     last_error: str | None = None
     tasks: list[TaskSummary]

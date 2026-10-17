@@ -1,4 +1,4 @@
-"""Typer CLI entrypoint for Boundary (M5)."""
+"""Typer CLI entrypoint for Boundary (M5, M8)."""
 
 from __future__ import annotations
 
@@ -11,7 +11,17 @@ from rich.console import Console
 
 from boundary.llm import DEFAULT_TIMEOUT_SECONDS, LLMClient, OpenAICompatClient
 from boundary.models import sanitize_error_message
-from boundary.report import render_report, summarize_run
+from boundary.profile import (
+    DEFAULT_MIN_EXTRACT_TOKENS,
+    DEFAULT_REUSE_THRESHOLD,
+    profile_traces,
+)
+from boundary.report import (
+    DEFAULT_REPORT_TOKEN_BUDGET,
+    render_profile_report,
+    render_report,
+    summarize_run,
+)
 from boundary.runner import run_suite
 from boundary.tasks import load_tasks
 from boundary.traces import read_traces
@@ -113,7 +123,7 @@ def run_cmd(
         seed=seed,
     )
     console.print(f"Run completed: {run_dir} ({len(traces)} traces written)")
-    summary = summarize_run(traces, run_id=run_dir.name)
+    summary = summarize_run(traces, run_id=run_dir.name, token_budget=token_budget)
     render_report(summary, console=console)
 
 
@@ -123,6 +133,10 @@ def report_cmd(
         Path,
         typer.Argument(help="Path to run directory (e.g. runs/<run_id>) or traces.jsonl file."),
     ],
+    token_budget: Annotated[
+        int,
+        typer.Option("--token-budget", min=1, help="Token budget reference for max overrun ratio."),
+    ] = DEFAULT_REPORT_TOKEN_BUDGET,
 ) -> None:
     """Render cost-quality and stop_reason summary report for an existing run."""
     console = Console()
@@ -137,8 +151,84 @@ def report_cmd(
         raise typer.Exit(code=1)
 
     run_id = run_path.stem if run_path.is_file() else run_path.name
-    summary = summarize_run(traces, run_id=run_id)
+    summary = summarize_run(traces, run_id=run_id, token_budget=token_budget)
     render_report(summary, console=console)
+
+
+@app.command("profile")
+def profile_cmd(
+    run_dir: Annotated[
+        Path,
+        typer.Argument(help="Path to run directory or JSONL trace file."),
+    ],
+    top: Annotated[
+        int,
+        typer.Option("--top", min=1, help="Number of top candidate opportunities to display."),
+    ] = 10,
+    min_tokens: Annotated[
+        int,
+        typer.Option(
+            "--min-tokens",
+            min=1,
+            help="Minimum tool result tokens for extract_subagent.",
+        ),
+    ] = DEFAULT_MIN_EXTRACT_TOKENS,
+    reuse_threshold: Annotated[
+        float,
+        typer.Option(
+            "--reuse-threshold",
+            min=0.0,
+            max=1.0,
+            help="Maximum reuse ratio for extract_subagent.",
+        ),
+    ] = DEFAULT_REUSE_THRESHOLD,
+    json_out: Annotated[
+        bool,
+        typer.Option("--json", help="Print JSON profile to stdout instead of Rich tables."),
+    ] = False,
+    tasks: Annotated[
+        Path,
+        typer.Option("--tasks", help="Optional path to task YAML directory for S3 base tokens."),
+    ] = Path("tasks/repo_qa"),
+) -> None:
+    """Profile trace context carry cost, reuse ratio, and parallelization opportunities (M8)."""
+    console = Console()
+    try:
+        traces = read_traces(run_dir)
+    except FileNotFoundError:
+        console.print(f"No traces found: '{run_dir}' does not exist or has no trace JSONL.")
+        raise typer.Exit(code=1) from None
+
+    if not traces:
+        console.print(f"No traces found: '{run_dir}' is empty.")
+        raise typer.Exit(code=1)
+
+    task_prompts: dict[str, str] = {}
+    if tasks.exists():
+        try:
+            for t in load_tasks(tasks):
+                task_prompts[t.id] = t.prompt
+        except Exception:
+            task_prompts = {}
+
+    profile = profile_traces(
+        traces,
+        task_prompts=task_prompts,
+        min_tokens=min_tokens,
+        reuse_threshold=reuse_threshold,
+    )
+
+    out_dir = run_dir.parent if run_dir.is_file() else run_dir
+    out_dir.mkdir(parents=True, exist_ok=True)
+    profile_json_path = out_dir / "profile.json"
+    profile_json_str = profile.model_dump_json(indent=2)
+    profile_json_path.write_text(profile_json_str + "\n", encoding="utf-8", newline="\n")
+
+    if json_out:
+        typer.echo(profile_json_str)
+    else:
+        run_id = run_dir.stem if run_dir.is_file() else run_dir.name
+        render_profile_report(profile, run_id=run_id, top=top, console=console)
 
 
 @app.command("check")
