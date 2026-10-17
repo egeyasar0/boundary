@@ -1,14 +1,39 @@
+# Local benchmark runs and traces (keep tests/data/baseline_sample.jsonl tracked)
+runs/
+tests/data/profile.json
+
+# Virtual environments
 .venv/
+venv/
+env/
+
+# Environment variables and secrets
+.env
+*.env
+.env.*
+
+# Python bytecode and caches
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
 *.py[cod]
 *$py.class
+
+# Tool caches
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+
+# Test coverage
+.coverage
+htmlcov/
+
+# Packaging and build artifacts
 dist/
 build/
 *.egg-info/
-.env
-.env.*
-runs/
-tests/data/profile.json
+
+# OS metadata
+.DS_Store
+Thumbs.db

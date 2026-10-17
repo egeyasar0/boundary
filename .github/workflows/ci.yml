@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+permissions:
+  contents: read
+
+jobs:
+  lint-type-test:
+    name: Lint, Typecheck & Test (Python 3.12)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Run Ruff linter
+        run: uv run ruff check .
+
+      - name: Run mypy static type checker
+        run: uv run mypy src tests
+
+      - name: Run offline unit & integration test suite
+        run: uv run pytest -v
