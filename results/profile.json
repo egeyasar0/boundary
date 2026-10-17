@@ -1,0 +1,2429 @@
+{
+  "traces": [
+    {
+      "trace_id": "tr_d694b19894e4",
+      "task_id": "retry-ceiling",
+      "num_calls": 3,
+      "carry_total_tokens": 308,
+      "carry_share": 0.21241379310344827,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_d694b19894e4",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-acf232c6c13f3d04",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 212,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_d694b19894e4",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-8e3444c5b24a9d15",
+          "tool": "read_file",
+          "size_tokens": 96,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 96,
+          "reuse_ratio": 0.3333333333333333
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_7ee3da039dfd",
+      "task_id": "codec-magic-header",
+      "num_calls": 4,
+      "carry_total_tokens": 468,
+      "carry_share": 0.22986247544204322,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_7ee3da039dfd",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-86db0efb904b96c7",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 318,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_7ee3da039dfd",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-91dec47d8a1d7d42",
+          "tool": "grep",
+          "size_tokens": 34,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 68,
+          "reuse_ratio": 1.0
+        },
+        {
+          "trace_id": "tr_7ee3da039dfd",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-826ccea21e3ed083",
+          "tool": "read_file",
+          "size_tokens": 82,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 82,
+          "reuse_ratio": 0.14285714285714285
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_2027f6ced642",
+      "task_id": "wal-compaction",
+      "num_calls": 3,
+      "carry_total_tokens": 289,
+      "carry_share": 0.20554765291607396,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_2027f6ced642",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-9c1f91871cb5befc",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 212,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_2027f6ced642",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-a388be1c29f64eac",
+          "tool": "read_file",
+          "size_tokens": 77,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 77,
+          "reuse_ratio": 0.42857142857142855
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_94508b6a1bb0",
+      "task_id": "auth-and-dispatcher",
+      "num_calls": 4,
+      "carry_total_tokens": 550,
+      "carry_share": 0.253690036900369,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_94508b6a1bb0",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-9b3a2c50380204e6",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 318,
+          "reuse_ratio": 0.1111111111111111
+        },
+        {
+          "trace_id": "tr_94508b6a1bb0",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-aa9d6b2470953f07",
+          "tool": "read_file",
+          "size_tokens": 74,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 148,
+          "reuse_ratio": 0.2857142857142857
+        },
+        {
+          "trace_id": "tr_94508b6a1bb0",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-932ce931f40c6963",
+          "tool": "read_file",
+          "size_tokens": 84,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 84,
+          "reuse_ratio": 0.2857142857142857
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_0c0c709e70c0",
+      "task_id": "breaker-and-telemetry",
+      "num_calls": 4,
+      "carry_total_tokens": 555,
+      "carry_share": 0.25777984208081745,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_0c0c709e70c0",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-9d64df03d056a180",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 318,
+          "reuse_ratio": 0.1111111111111111
+        },
+        {
+          "trace_id": "tr_0c0c709e70c0",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-803045db52e6bbed",
+          "tool": "read_file",
+          "size_tokens": 79,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 158,
+          "reuse_ratio": 0.2857142857142857
+        },
+        {
+          "trace_id": "tr_0c0c709e70c0",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-812dcad5ba48d4e5",
+          "tool": "read_file",
+          "size_tokens": 79,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 79,
+          "reuse_ratio": 0.2857142857142857
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_efab118da305",
+      "task_id": "scheduler-and-validators",
+      "num_calls": 4,
+      "carry_total_tokens": 574,
+      "carry_share": 0.26366559485530544,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_efab118da305",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-bff3f8ff6a7e0770",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 318,
+          "reuse_ratio": 0.1111111111111111
+        },
+        {
+          "trace_id": "tr_efab118da305",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-88f790cebb4cad83",
+          "tool": "read_file",
+          "size_tokens": 85,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 170,
+          "reuse_ratio": 0.2857142857142857
+        },
+        {
+          "trace_id": "tr_efab118da305",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-81bffb3c3f7a637b",
+          "tool": "read_file",
+          "size_tokens": 86,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 86,
+          "reuse_ratio": 0.2857142857142857
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_84b3f5f6d9cf",
+      "task_id": "ledger-anomaly-needle",
+      "num_calls": 3,
+      "carry_total_tokens": 5215,
+      "carry_share": 0.6799217731421121,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_84b3f5f6d9cf",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-ae5096aa66fe497a",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 212,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_84b3f5f6d9cf",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-89e94c6be8c5b8da",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 5003,
+          "reuse_ratio": 0.0025906735751295338
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_2ef87202bee1",
+      "task_id": "routing-shard-needle",
+      "num_calls": 6,
+      "carry_total_tokens": 35614,
+      "carry_share": 0.789212427425431,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_2ef87202bee1",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-83f74ff6495c43dc",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 5,
+          "carry_cost_tokens": 530,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_2ef87202bee1",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-bf8d51c5c8766d3b",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 4,
+          "carry_cost_tokens": 20012,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_2ef87202bee1",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-8a3d04368f77f862",
+          "tool": "grep",
+          "size_tokens": 21,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 63,
+          "reuse_ratio": 1.0
+        },
+        {
+          "trace_id": "tr_2ef87202bee1",
+          "step_index": 3,
+          "call_id": "chatcmpl-tool-be80d8adcb5bddad",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 10006,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_2ef87202bee1",
+          "step_index": 4,
+          "call_id": "chatcmpl-tool-825d802919fcc4dc",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 5003,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_2ef87202bee1",
+          "step_index": 5,
+          "call_id": "chatcmpl-tool-be6d3cb017cee760",
+          "tool": "grep",
+          "size_tokens": 21,
+          "remaining_calls": 0,
+          "carry_cost_tokens": 0,
+          "reuse_ratio": 0.0
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_6411fb30db7c",
+      "task_id": "hop-cluster-reconcile",
+      "num_calls": 6,
+      "carry_total_tokens": 35605,
+      "carry_share": 0.7470938772084434,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_6411fb30db7c",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-9642e1961f996245",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 5,
+          "carry_cost_tokens": 530,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_6411fb30db7c",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-ac843e98afd6531f",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 4,
+          "carry_cost_tokens": 20012,
+          "reuse_ratio": 0.002881844380403458
+        },
+        {
+          "trace_id": "tr_6411fb30db7c",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-8a95a5018a0cc3e8",
+          "tool": "grep",
+          "size_tokens": 18,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 54,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_6411fb30db7c",
+          "step_index": 3,
+          "call_id": "chatcmpl-tool-b735237b7726a890",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 10006,
+          "reuse_ratio": 0.001440922190201729
+        },
+        {
+          "trace_id": "tr_6411fb30db7c",
+          "step_index": 4,
+          "call_id": "chatcmpl-tool-90c5767d91db3ce3",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 5003,
+          "reuse_ratio": 0.002881844380403458
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_8b4629ad3303",
+      "task_id": "hop-incident-shard-link",
+      "num_calls": 7,
+      "carry_total_tokens": 40765,
+      "carry_share": 0.7806396016851781,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_8b4629ad3303",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-8abe563f64aa058b",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 6,
+          "carry_cost_tokens": 636,
+          "reuse_ratio": 0.1111111111111111
+        },
+        {
+          "trace_id": "tr_8b4629ad3303",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-995a0dfea5efa8c2",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 5,
+          "carry_cost_tokens": 25015,
+          "reuse_ratio": 0.002881844380403458
+        },
+        {
+          "trace_id": "tr_8b4629ad3303",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-ad7f94de1bf28242",
+          "tool": "grep<|channel|>commentary",
+          "size_tokens": 12,
+          "remaining_calls": 4,
+          "carry_cost_tokens": 48,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_8b4629ad3303",
+          "step_index": 3,
+          "call_id": "chatcmpl-tool-9d81356e681b31f1",
+          "tool": "grep",
+          "size_tokens": 19,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 57,
+          "reuse_ratio": 1.0
+        },
+        {
+          "trace_id": "tr_8b4629ad3303",
+          "step_index": 4,
+          "call_id": "chatcmpl-tool-99b3f147ce0bc297",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 10006,
+          "reuse_ratio": 0.001440922190201729
+        },
+        {
+          "trace_id": "tr_8b4629ad3303",
+          "step_index": 5,
+          "call_id": "chatcmpl-tool-a17324f7ed135571",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 5003,
+          "reuse_ratio": 0.001483679525222552
+        },
+        {
+          "trace_id": "tr_8b4629ad3303",
+          "step_index": 6,
+          "call_id": "chatcmpl-tool-a971383454716733",
+          "tool": "grep",
+          "size_tokens": 19,
+          "remaining_calls": 0,
+          "carry_cost_tokens": 0,
+          "reuse_ratio": 0.0
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_f86939331756",
+      "task_id": "hop-escrow-vault-route",
+      "num_calls": 6,
+      "carry_total_tokens": 35605,
+      "carry_share": 0.7460606822563071,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_f86939331756",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-9e8ad2a6a57362fa",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 5,
+          "carry_cost_tokens": 530,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_f86939331756",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-bd7fb758ecb62d01",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 4,
+          "carry_cost_tokens": 20012,
+          "reuse_ratio": 0.002881844380403458
+        },
+        {
+          "trace_id": "tr_f86939331756",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-a8ba7dbbdc6525e7",
+          "tool": "grep",
+          "size_tokens": 18,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 54,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_f86939331756",
+          "step_index": 3,
+          "call_id": "chatcmpl-tool-a91a1be03be836f4",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 10006,
+          "reuse_ratio": 0.001440922190201729
+        },
+        {
+          "trace_id": "tr_f86939331756",
+          "step_index": 4,
+          "call_id": "chatcmpl-tool-812d32a243e0d586",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 5003,
+          "reuse_ratio": 0.001483679525222552
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_90a2d2838517",
+      "task_id": "hop-canary-breaker-audit",
+      "num_calls": 7,
+      "carry_total_tokens": 40762,
+      "carry_share": 0.7418691418691419,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_90a2d2838517",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-a5c8a267cb4cd5dd",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 6,
+          "carry_cost_tokens": 636,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_90a2d2838517",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-8eae86b42db8bf53",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 5,
+          "carry_cost_tokens": 25015,
+          "reuse_ratio": 0.002881844380403458
+        },
+        {
+          "trace_id": "tr_90a2d2838517",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-9f42be383c50c573",
+          "tool": "grep<|channel|>commentary",
+          "size_tokens": 12,
+          "remaining_calls": 4,
+          "carry_cost_tokens": 48,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_90a2d2838517",
+          "step_index": 3,
+          "call_id": "chatcmpl-tool-b0d08d3d1b1116d3",
+          "tool": "grep",
+          "size_tokens": 18,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 54,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_90a2d2838517",
+          "step_index": 4,
+          "call_id": "chatcmpl-tool-98b46c3acab46401",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 10006,
+          "reuse_ratio": 0.001440922190201729
+        },
+        {
+          "trace_id": "tr_90a2d2838517",
+          "step_index": 5,
+          "call_id": "chatcmpl-tool-b37b802acbf9bf82",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 5003,
+          "reuse_ratio": 0.001440922190201729
+        },
+        {
+          "trace_id": "tr_90a2d2838517",
+          "step_index": 6,
+          "call_id": "chatcmpl-tool-93551ed9da7be65d",
+          "tool": "grep",
+          "size_tokens": 17,
+          "remaining_calls": 0,
+          "carry_cost_tokens": 0,
+          "reuse_ratio": 0.0
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_6a900055e963",
+      "task_id": "hop-drain-manifest-corridor",
+      "num_calls": 7,
+      "carry_total_tokens": 35781,
+      "carry_share": 0.7739109746074317,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_6a900055e963",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-9c58d46f050e97d0",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 6,
+          "carry_cost_tokens": 636,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_6a900055e963",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-a2a42d68b883473b",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 5,
+          "carry_cost_tokens": 25015,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_6a900055e963",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-a4424fb763b3e486",
+          "tool": "grep<|channel|>commentary",
+          "size_tokens": 12,
+          "remaining_calls": 4,
+          "carry_cost_tokens": 48,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_6a900055e963",
+          "step_index": 3,
+          "call_id": "chatcmpl-tool-8a753356f4b53c9f",
+          "tool": "grep",
+          "size_tokens": 19,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 57,
+          "reuse_ratio": 1.0
+        },
+        {
+          "trace_id": "tr_6a900055e963",
+          "step_index": 4,
+          "call_id": "chatcmpl-tool-9c29d1a2db51d847",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 10006,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_6a900055e963",
+          "step_index": 5,
+          "call_id": "chatcmpl-tool-abaa696d4e62bdf7",
+          "tool": "grep",
+          "size_tokens": 19,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 19,
+          "reuse_ratio": 1.0
+        },
+        {
+          "trace_id": "tr_6a900055e963",
+          "step_index": 6,
+          "call_id": "chatcmpl-tool-81513b1b516c9d7b",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 0,
+          "carry_cost_tokens": 0,
+          "reuse_ratio": 0.0
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_ff74d03392d2",
+      "task_id": "hop-witness-ledger-delta",
+      "num_calls": 6,
+      "carry_total_tokens": 30616,
+      "carry_share": 0.7344079831126463,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_ff74d03392d2",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-82c363f909f1b85b",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 5,
+          "carry_cost_tokens": 530,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_ff74d03392d2",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-b68ebd4b2224bf14",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 4,
+          "carry_cost_tokens": 20012,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_ff74d03392d2",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-92d62a8f9fbe7359",
+          "tool": "grep",
+          "size_tokens": 17,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 51,
+          "reuse_ratio": 1.0
+        },
+        {
+          "trace_id": "tr_ff74d03392d2",
+          "step_index": 3,
+          "call_id": "chatcmpl-tool-b09f2c000da96c91",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 10006,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_ff74d03392d2",
+          "step_index": 4,
+          "call_id": "chatcmpl-tool-8ee8c020a93f91e9",
+          "tool": "grep",
+          "size_tokens": 17,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 17,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_ff74d03392d2",
+          "step_index": 5,
+          "call_id": "chatcmpl-tool-ae2ce0ac3622ee1a",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 0,
+          "carry_cost_tokens": 0,
+          "reuse_ratio": 0.0
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_6c7d150e9557",
+      "task_id": "count-degraded-shards-a",
+      "num_calls": 7,
+      "carry_total_tokens": 36645,
+      "carry_share": 0.7317730694730116,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_6c7d150e9557",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-b38df86c64ecda3d",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 6,
+          "carry_cost_tokens": 636,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_6c7d150e9557",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-9cd03e5276ebc2b8",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 5,
+          "carry_cost_tokens": 25015,
+          "reuse_ratio": 0.2838616714697406
+        },
+        {
+          "trace_id": "tr_6c7d150e9557",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-ba7319f2dc55ad19",
+          "tool": "grep",
+          "size_tokens": 4,
+          "remaining_calls": 4,
+          "carry_cost_tokens": 16,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_6c7d150e9557",
+          "step_index": 3,
+          "call_id": "chatcmpl-tool-a993e4edb8264b0d",
+          "tool": "grep",
+          "size_tokens": 243,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 729,
+          "reuse_ratio": 1.0
+        },
+        {
+          "trace_id": "tr_6c7d150e9557",
+          "step_index": 4,
+          "call_id": "chatcmpl-tool-ba47d4350e7f6840",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 10006,
+          "reuse_ratio": 0.15273775216138327
+        },
+        {
+          "trace_id": "tr_6c7d150e9557",
+          "step_index": 5,
+          "call_id": "chatcmpl-tool-8f5afb98e5ad5f5a",
+          "tool": "grep",
+          "size_tokens": 243,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 243,
+          "reuse_ratio": 0.07692307692307693
+        },
+        {
+          "trace_id": "tr_6c7d150e9557",
+          "step_index": 6,
+          "call_id": "chatcmpl-tool-8ebab5da04f26678",
+          "tool": "grep",
+          "size_tokens": 159,
+          "remaining_calls": 0,
+          "carry_cost_tokens": 0,
+          "reuse_ratio": 0.0
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_07c8082fdfc2",
+      "task_id": "count-critical-incidents",
+      "num_calls": 6,
+      "carry_total_tokens": 45858,
+      "carry_share": 0.7912963953548565,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_07c8082fdfc2",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-803ae8e167fb9c54",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 5,
+          "carry_cost_tokens": 530,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_07c8082fdfc2",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-ba2e98d63e6ac764",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 4,
+          "carry_cost_tokens": 20012,
+          "reuse_ratio": 0.01483679525222552
+        },
+        {
+          "trace_id": "tr_07c8082fdfc2",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-b1136d6ed54fcb65",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 15009,
+          "reuse_ratio": 0.01483679525222552
+        },
+        {
+          "trace_id": "tr_07c8082fdfc2",
+          "step_index": 3,
+          "call_id": "chatcmpl-tool-9656733be4d16db1",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 10006,
+          "reuse_ratio": 0.01483679525222552
+        },
+        {
+          "trace_id": "tr_07c8082fdfc2",
+          "step_index": 4,
+          "call_id": "chatcmpl-tool-90a9a3f360efa0c7",
+          "tool": "grep",
+          "size_tokens": 301,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 301,
+          "reuse_ratio": 1.0
+        },
+        {
+          "trace_id": "tr_07c8082fdfc2",
+          "step_index": 5,
+          "call_id": "chatcmpl-tool-8369fcb055cfd784",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 0,
+          "carry_cost_tokens": 0,
+          "reuse_ratio": 0.0
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_1703b70176b2",
+      "task_id": "count-reconcile-pending-b",
+      "num_calls": 7,
+      "carry_total_tokens": 31494,
+      "carry_share": 0.764343267643918,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_1703b70176b2",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-8dc3a8b405f1e882",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 6,
+          "carry_cost_tokens": 636,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_1703b70176b2",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-8167571f3699450d",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 5,
+          "carry_cost_tokens": 25015,
+          "reuse_ratio": 0.012968299711815562
+        },
+        {
+          "trace_id": "tr_1703b70176b2",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-a645878a4bc373a2",
+          "tool": "grep<|channel|>commentary",
+          "size_tokens": 12,
+          "remaining_calls": 4,
+          "carry_cost_tokens": 48,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_1703b70176b2",
+          "step_index": 3,
+          "call_id": "chatcmpl-tool-bdfd2f4b1b7a57b6",
+          "tool": "grep",
+          "size_tokens": 256,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 768,
+          "reuse_ratio": 1.0
+        },
+        {
+          "trace_id": "tr_1703b70176b2",
+          "step_index": 4,
+          "call_id": "chatcmpl-tool-8ff1e4324f856ced",
+          "tool": "grep<|channel|>commentary",
+          "size_tokens": 12,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 24,
+          "reuse_ratio": 0.0
+        },
+        {
+          "trace_id": "tr_1703b70176b2",
+          "step_index": 5,
+          "call_id": "chatcmpl-tool-91041559b7b63c9b",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 5003,
+          "reuse_ratio": 0.012968299711815562
+        },
+        {
+          "trace_id": "tr_1703b70176b2",
+          "step_index": 6,
+          "call_id": "chatcmpl-tool-adc8a64019a4a514",
+          "tool": "grep<|channel|>commentary",
+          "size_tokens": 12,
+          "remaining_calls": 0,
+          "carry_cost_tokens": 0,
+          "reuse_ratio": 0.0
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_a2fbde4cc9cd",
+      "task_id": "count-total-penalty-points",
+      "num_calls": 6,
+      "carry_total_tokens": 31085,
+      "carry_share": 0.7783509026717079,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_a2fbde4cc9cd",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-abae3db7341f5dce",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 5,
+          "carry_cost_tokens": 530,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_a2fbde4cc9cd",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-afade49f8ffed00d",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 4,
+          "carry_cost_tokens": 20012,
+          "reuse_ratio": 0.007204610951008645
+        },
+        {
+          "trace_id": "tr_a2fbde4cc9cd",
+          "step_index": 2,
+          "call_id": "chatcmpl-tool-9c873a0986f9fe9b",
+          "tool": "grep",
+          "size_tokens": 140,
+          "remaining_calls": 3,
+          "carry_cost_tokens": 420,
+          "reuse_ratio": 1.0
+        },
+        {
+          "trace_id": "tr_a2fbde4cc9cd",
+          "step_index": 3,
+          "call_id": "chatcmpl-tool-b8e5442b23613fbe",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 10006,
+          "reuse_ratio": 0.007204610951008645
+        },
+        {
+          "trace_id": "tr_a2fbde4cc9cd",
+          "step_index": 4,
+          "call_id": "chatcmpl-tool-a6e175bbe2875b97",
+          "tool": "grep",
+          "size_tokens": 117,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 117,
+          "reuse_ratio": 1.0
+        },
+        {
+          "trace_id": "tr_a2fbde4cc9cd",
+          "step_index": 5,
+          "call_id": "chatcmpl-tool-a00ff8ca7965b91b",
+          "tool": "grep",
+          "size_tokens": 98,
+          "remaining_calls": 0,
+          "carry_cost_tokens": 0,
+          "reuse_ratio": 0.0
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_18bc65294989",
+      "task_id": "distractor-escalation-hook",
+      "num_calls": 3,
+      "carry_total_tokens": 5049,
+      "carry_share": 0.6948802642444261,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_18bc65294989",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-8b01cfa98c2a0db6",
+          "tool": "grep",
+          "size_tokens": 23,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 46,
+          "reuse_ratio": 1.0
+        },
+        {
+          "trace_id": "tr_18bc65294989",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-bd0c30b8090db6c2",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 5003,
+          "reuse_ratio": 0.002967359050445104
+        }
+      ]
+    },
+    {
+      "trace_id": "tr_bf134c71e3f3",
+      "task_id": "distractor-witness-cipher",
+      "num_calls": 3,
+      "carry_total_tokens": 5215,
+      "carry_share": 0.7094272888042443,
+      "usage_source": "api",
+      "results": [
+        {
+          "trace_id": "tr_bf134c71e3f3",
+          "step_index": 0,
+          "call_id": "chatcmpl-tool-a8e397fa8ab6a489",
+          "tool": "list_files",
+          "size_tokens": 106,
+          "remaining_calls": 2,
+          "carry_cost_tokens": 212,
+          "reuse_ratio": 0.05555555555555555
+        },
+        {
+          "trace_id": "tr_bf134c71e3f3",
+          "step_index": 1,
+          "call_id": "chatcmpl-tool-93d2faf70c8ecc34",
+          "tool": "read_file",
+          "size_tokens": 5003,
+          "remaining_calls": 1,
+          "carry_cost_tokens": 5003,
+          "reuse_ratio": 0.002881844380403458
+        }
+      ]
+    }
+  ],
+  "opportunities": [
+    {
+      "id": "opp_0016",
+      "kind": "extract_subagent",
+      "task_id": "hop-incident-shard-link",
+      "trace_ids": [
+        "tr_8b4629ad3303"
+      ],
+      "evidence": {
+        "trace_id": "tr_8b4629ad3303",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-995a0dfea5efa8c2",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 5,
+        "carry_cost_tokens": 25015,
+        "reuse_ratio": 0.002882
+      },
+      "est_upper_bound_savings_tokens": 25015,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0026",
+      "kind": "extract_subagent",
+      "task_id": "hop-canary-breaker-audit",
+      "trace_ids": [
+        "tr_90a2d2838517"
+      ],
+      "evidence": {
+        "trace_id": "tr_90a2d2838517",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-8eae86b42db8bf53",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 5,
+        "carry_cost_tokens": 25015,
+        "reuse_ratio": 0.002882
+      },
+      "est_upper_bound_savings_tokens": 25015,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0031",
+      "kind": "extract_subagent",
+      "task_id": "hop-drain-manifest-corridor",
+      "trace_ids": [
+        "tr_6a900055e963"
+      ],
+      "evidence": {
+        "trace_id": "tr_6a900055e963",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-a2a42d68b883473b",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 5,
+        "carry_cost_tokens": 25015,
+        "reuse_ratio": 0.0
+      },
+      "est_upper_bound_savings_tokens": 25015,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0048",
+      "kind": "extract_subagent",
+      "task_id": "count-reconcile-pending-b",
+      "trace_ids": [
+        "tr_1703b70176b2"
+      ],
+      "evidence": {
+        "trace_id": "tr_1703b70176b2",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-8167571f3699450d",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 5,
+        "carry_cost_tokens": 25015,
+        "reuse_ratio": 0.012968
+      },
+      "est_upper_bound_savings_tokens": 25015,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0006",
+      "kind": "extract_subagent",
+      "task_id": "routing-shard-needle",
+      "trace_ids": [
+        "tr_2ef87202bee1"
+      ],
+      "evidence": {
+        "trace_id": "tr_2ef87202bee1",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-bf8d51c5c8766d3b",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 4,
+        "carry_cost_tokens": 20012,
+        "reuse_ratio": 0.0
+      },
+      "est_upper_bound_savings_tokens": 20012,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0011",
+      "kind": "extract_subagent",
+      "task_id": "hop-cluster-reconcile",
+      "trace_ids": [
+        "tr_6411fb30db7c"
+      ],
+      "evidence": {
+        "trace_id": "tr_6411fb30db7c",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-ac843e98afd6531f",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 4,
+        "carry_cost_tokens": 20012,
+        "reuse_ratio": 0.002882
+      },
+      "est_upper_bound_savings_tokens": 20012,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0021",
+      "kind": "extract_subagent",
+      "task_id": "hop-escrow-vault-route",
+      "trace_ids": [
+        "tr_f86939331756"
+      ],
+      "evidence": {
+        "trace_id": "tr_f86939331756",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-bd7fb758ecb62d01",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 4,
+        "carry_cost_tokens": 20012,
+        "reuse_ratio": 0.002882
+      },
+      "est_upper_bound_savings_tokens": 20012,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0036",
+      "kind": "extract_subagent",
+      "task_id": "hop-witness-ledger-delta",
+      "trace_ids": [
+        "tr_ff74d03392d2"
+      ],
+      "evidence": {
+        "trace_id": "tr_ff74d03392d2",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-b68ebd4b2224bf14",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 4,
+        "carry_cost_tokens": 20012,
+        "reuse_ratio": 0.0
+      },
+      "est_upper_bound_savings_tokens": 20012,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0043",
+      "kind": "extract_subagent",
+      "task_id": "count-critical-incidents",
+      "trace_ids": [
+        "tr_07c8082fdfc2"
+      ],
+      "evidence": {
+        "trace_id": "tr_07c8082fdfc2",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-ba2e98d63e6ac764",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 4,
+        "carry_cost_tokens": 20012,
+        "reuse_ratio": 0.014837
+      },
+      "est_upper_bound_savings_tokens": 20012,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0052",
+      "kind": "extract_subagent",
+      "task_id": "count-total-penalty-points",
+      "trace_ids": [
+        "tr_a2fbde4cc9cd"
+      ],
+      "evidence": {
+        "trace_id": "tr_a2fbde4cc9cd",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-afade49f8ffed00d",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 4,
+        "carry_cost_tokens": 20012,
+        "reuse_ratio": 0.007205
+      },
+      "est_upper_bound_savings_tokens": 20012,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0044",
+      "kind": "extract_subagent",
+      "task_id": "count-critical-incidents",
+      "trace_ids": [
+        "tr_07c8082fdfc2"
+      ],
+      "evidence": {
+        "trace_id": "tr_07c8082fdfc2",
+        "step_index": 2,
+        "call_id": "chatcmpl-tool-b1136d6ed54fcb65",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 3,
+        "carry_cost_tokens": 15009,
+        "reuse_ratio": 0.014837
+      },
+      "est_upper_bound_savings_tokens": 15009,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0007",
+      "kind": "extract_subagent",
+      "task_id": "routing-shard-needle",
+      "trace_ids": [
+        "tr_2ef87202bee1"
+      ],
+      "evidence": {
+        "trace_id": "tr_2ef87202bee1",
+        "step_index": 3,
+        "call_id": "chatcmpl-tool-be80d8adcb5bddad",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 2,
+        "carry_cost_tokens": 10006,
+        "reuse_ratio": 0.0
+      },
+      "est_upper_bound_savings_tokens": 10006,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0012",
+      "kind": "extract_subagent",
+      "task_id": "hop-cluster-reconcile",
+      "trace_ids": [
+        "tr_6411fb30db7c"
+      ],
+      "evidence": {
+        "trace_id": "tr_6411fb30db7c",
+        "step_index": 3,
+        "call_id": "chatcmpl-tool-b735237b7726a890",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 2,
+        "carry_cost_tokens": 10006,
+        "reuse_ratio": 0.001441
+      },
+      "est_upper_bound_savings_tokens": 10006,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0017",
+      "kind": "extract_subagent",
+      "task_id": "hop-incident-shard-link",
+      "trace_ids": [
+        "tr_8b4629ad3303"
+      ],
+      "evidence": {
+        "trace_id": "tr_8b4629ad3303",
+        "step_index": 4,
+        "call_id": "chatcmpl-tool-99b3f147ce0bc297",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 2,
+        "carry_cost_tokens": 10006,
+        "reuse_ratio": 0.001441
+      },
+      "est_upper_bound_savings_tokens": 10006,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0022",
+      "kind": "extract_subagent",
+      "task_id": "hop-escrow-vault-route",
+      "trace_ids": [
+        "tr_f86939331756"
+      ],
+      "evidence": {
+        "trace_id": "tr_f86939331756",
+        "step_index": 3,
+        "call_id": "chatcmpl-tool-a91a1be03be836f4",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 2,
+        "carry_cost_tokens": 10006,
+        "reuse_ratio": 0.001441
+      },
+      "est_upper_bound_savings_tokens": 10006,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0027",
+      "kind": "extract_subagent",
+      "task_id": "hop-canary-breaker-audit",
+      "trace_ids": [
+        "tr_90a2d2838517"
+      ],
+      "evidence": {
+        "trace_id": "tr_90a2d2838517",
+        "step_index": 4,
+        "call_id": "chatcmpl-tool-98b46c3acab46401",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 2,
+        "carry_cost_tokens": 10006,
+        "reuse_ratio": 0.001441
+      },
+      "est_upper_bound_savings_tokens": 10006,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0032",
+      "kind": "extract_subagent",
+      "task_id": "hop-drain-manifest-corridor",
+      "trace_ids": [
+        "tr_6a900055e963"
+      ],
+      "evidence": {
+        "trace_id": "tr_6a900055e963",
+        "step_index": 4,
+        "call_id": "chatcmpl-tool-9c29d1a2db51d847",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 2,
+        "carry_cost_tokens": 10006,
+        "reuse_ratio": 0.0
+      },
+      "est_upper_bound_savings_tokens": 10006,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0037",
+      "kind": "extract_subagent",
+      "task_id": "hop-witness-ledger-delta",
+      "trace_ids": [
+        "tr_ff74d03392d2"
+      ],
+      "evidence": {
+        "trace_id": "tr_ff74d03392d2",
+        "step_index": 3,
+        "call_id": "chatcmpl-tool-b09f2c000da96c91",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 2,
+        "carry_cost_tokens": 10006,
+        "reuse_ratio": 0.0
+      },
+      "est_upper_bound_savings_tokens": 10006,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0045",
+      "kind": "extract_subagent",
+      "task_id": "count-critical-incidents",
+      "trace_ids": [
+        "tr_07c8082fdfc2"
+      ],
+      "evidence": {
+        "trace_id": "tr_07c8082fdfc2",
+        "step_index": 3,
+        "call_id": "chatcmpl-tool-9656733be4d16db1",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 2,
+        "carry_cost_tokens": 10006,
+        "reuse_ratio": 0.014837
+      },
+      "est_upper_bound_savings_tokens": 10006,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0053",
+      "kind": "extract_subagent",
+      "task_id": "count-total-penalty-points",
+      "trace_ids": [
+        "tr_a2fbde4cc9cd"
+      ],
+      "evidence": {
+        "trace_id": "tr_a2fbde4cc9cd",
+        "step_index": 3,
+        "call_id": "chatcmpl-tool-b8e5442b23613fbe",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 2,
+        "carry_cost_tokens": 10006,
+        "reuse_ratio": 0.007205
+      },
+      "est_upper_bound_savings_tokens": 10006,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0005",
+      "kind": "extract_subagent",
+      "task_id": "ledger-anomaly-needle",
+      "trace_ids": [
+        "tr_84b3f5f6d9cf"
+      ],
+      "evidence": {
+        "trace_id": "tr_84b3f5f6d9cf",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-89e94c6be8c5b8da",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 1,
+        "carry_cost_tokens": 5003,
+        "reuse_ratio": 0.002591
+      },
+      "est_upper_bound_savings_tokens": 5003,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0008",
+      "kind": "extract_subagent",
+      "task_id": "routing-shard-needle",
+      "trace_ids": [
+        "tr_2ef87202bee1"
+      ],
+      "evidence": {
+        "trace_id": "tr_2ef87202bee1",
+        "step_index": 4,
+        "call_id": "chatcmpl-tool-825d802919fcc4dc",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 1,
+        "carry_cost_tokens": 5003,
+        "reuse_ratio": 0.0
+      },
+      "est_upper_bound_savings_tokens": 5003,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0013",
+      "kind": "extract_subagent",
+      "task_id": "hop-cluster-reconcile",
+      "trace_ids": [
+        "tr_6411fb30db7c"
+      ],
+      "evidence": {
+        "trace_id": "tr_6411fb30db7c",
+        "step_index": 4,
+        "call_id": "chatcmpl-tool-90c5767d91db3ce3",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 1,
+        "carry_cost_tokens": 5003,
+        "reuse_ratio": 0.002882
+      },
+      "est_upper_bound_savings_tokens": 5003,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0018",
+      "kind": "extract_subagent",
+      "task_id": "hop-incident-shard-link",
+      "trace_ids": [
+        "tr_8b4629ad3303"
+      ],
+      "evidence": {
+        "trace_id": "tr_8b4629ad3303",
+        "step_index": 5,
+        "call_id": "chatcmpl-tool-a17324f7ed135571",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 1,
+        "carry_cost_tokens": 5003,
+        "reuse_ratio": 0.001484
+      },
+      "est_upper_bound_savings_tokens": 5003,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0023",
+      "kind": "extract_subagent",
+      "task_id": "hop-escrow-vault-route",
+      "trace_ids": [
+        "tr_f86939331756"
+      ],
+      "evidence": {
+        "trace_id": "tr_f86939331756",
+        "step_index": 4,
+        "call_id": "chatcmpl-tool-812d32a243e0d586",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 1,
+        "carry_cost_tokens": 5003,
+        "reuse_ratio": 0.001484
+      },
+      "est_upper_bound_savings_tokens": 5003,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0028",
+      "kind": "extract_subagent",
+      "task_id": "hop-canary-breaker-audit",
+      "trace_ids": [
+        "tr_90a2d2838517"
+      ],
+      "evidence": {
+        "trace_id": "tr_90a2d2838517",
+        "step_index": 5,
+        "call_id": "chatcmpl-tool-b37b802acbf9bf82",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 1,
+        "carry_cost_tokens": 5003,
+        "reuse_ratio": 0.001441
+      },
+      "est_upper_bound_savings_tokens": 5003,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0049",
+      "kind": "extract_subagent",
+      "task_id": "count-reconcile-pending-b",
+      "trace_ids": [
+        "tr_1703b70176b2"
+      ],
+      "evidence": {
+        "trace_id": "tr_1703b70176b2",
+        "step_index": 5,
+        "call_id": "chatcmpl-tool-91041559b7b63c9b",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 1,
+        "carry_cost_tokens": 5003,
+        "reuse_ratio": 0.012968
+      },
+      "est_upper_bound_savings_tokens": 5003,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0056",
+      "kind": "extract_subagent",
+      "task_id": "distractor-escalation-hook",
+      "trace_ids": [
+        "tr_18bc65294989"
+      ],
+      "evidence": {
+        "trace_id": "tr_18bc65294989",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-bd0c30b8090db6c2",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 1,
+        "carry_cost_tokens": 5003,
+        "reuse_ratio": 0.002967
+      },
+      "est_upper_bound_savings_tokens": 5003,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0057",
+      "kind": "extract_subagent",
+      "task_id": "distractor-witness-cipher",
+      "trace_ids": [
+        "tr_bf134c71e3f3"
+      ],
+      "evidence": {
+        "trace_id": "tr_bf134c71e3f3",
+        "step_index": 1,
+        "call_id": "chatcmpl-tool-93d2faf70c8ecc34",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 1,
+        "carry_cost_tokens": 5003,
+        "reuse_ratio": 0.002882
+      },
+      "est_upper_bound_savings_tokens": 5003,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0047",
+      "kind": "parallelize",
+      "task_id": "count-critical-incidents",
+      "trace_ids": [
+        "tr_07c8082fdfc2"
+      ],
+      "evidence": {
+        "trace_id": "tr_07c8082fdfc2",
+        "step_indices": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "tools": [
+          "read_file",
+          "read_file",
+          "read_file",
+          "grep"
+        ],
+        "group_size": 4,
+        "steps_saved": 3
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 3,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0010",
+      "kind": "parallelize",
+      "task_id": "routing-shard-needle",
+      "trace_ids": [
+        "tr_2ef87202bee1"
+      ],
+      "evidence": {
+        "trace_id": "tr_2ef87202bee1",
+        "step_indices": [
+          3,
+          4,
+          5
+        ],
+        "tools": [
+          "read_file",
+          "read_file",
+          "grep"
+        ],
+        "group_size": 3,
+        "steps_saved": 2
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 2,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0019",
+      "kind": "parallelize",
+      "task_id": "hop-incident-shard-link",
+      "trace_ids": [
+        "tr_8b4629ad3303"
+      ],
+      "evidence": {
+        "trace_id": "tr_8b4629ad3303",
+        "step_indices": [
+          1,
+          2,
+          3
+        ],
+        "tools": [
+          "read_file",
+          "grep<|channel|>commentary",
+          "grep"
+        ],
+        "group_size": 3,
+        "steps_saved": 2
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 2,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0029",
+      "kind": "parallelize",
+      "task_id": "hop-canary-breaker-audit",
+      "trace_ids": [
+        "tr_90a2d2838517"
+      ],
+      "evidence": {
+        "trace_id": "tr_90a2d2838517",
+        "step_indices": [
+          1,
+          2,
+          3
+        ],
+        "tools": [
+          "read_file",
+          "grep<|channel|>commentary",
+          "grep"
+        ],
+        "group_size": 3,
+        "steps_saved": 2
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 2,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0034",
+      "kind": "parallelize",
+      "task_id": "hop-drain-manifest-corridor",
+      "trace_ids": [
+        "tr_6a900055e963"
+      ],
+      "evidence": {
+        "trace_id": "tr_6a900055e963",
+        "step_indices": [
+          1,
+          2,
+          3
+        ],
+        "tools": [
+          "read_file",
+          "grep<|channel|>commentary",
+          "grep"
+        ],
+        "group_size": 3,
+        "steps_saved": 2
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 2,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0041",
+      "kind": "parallelize",
+      "task_id": "count-degraded-shards-a",
+      "trace_ids": [
+        "tr_6c7d150e9557"
+      ],
+      "evidence": {
+        "trace_id": "tr_6c7d150e9557",
+        "step_indices": [
+          1,
+          2,
+          3
+        ],
+        "tools": [
+          "read_file",
+          "grep",
+          "grep"
+        ],
+        "group_size": 3,
+        "steps_saved": 2
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 2,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0050",
+      "kind": "parallelize",
+      "task_id": "count-reconcile-pending-b",
+      "trace_ids": [
+        "tr_1703b70176b2"
+      ],
+      "evidence": {
+        "trace_id": "tr_1703b70176b2",
+        "step_indices": [
+          1,
+          2,
+          3
+        ],
+        "tools": [
+          "read_file",
+          "grep<|channel|>commentary",
+          "grep"
+        ],
+        "group_size": 3,
+        "steps_saved": 2
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 2,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0051",
+      "kind": "parallelize",
+      "task_id": "count-reconcile-pending-b",
+      "trace_ids": [
+        "tr_1703b70176b2"
+      ],
+      "evidence": {
+        "trace_id": "tr_1703b70176b2",
+        "step_indices": [
+          4,
+          5,
+          6
+        ],
+        "tools": [
+          "grep<|channel|>commentary",
+          "read_file",
+          "grep<|channel|>commentary"
+        ],
+        "group_size": 3,
+        "steps_saved": 2
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 2,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0001",
+      "kind": "parallelize",
+      "task_id": "codec-magic-header",
+      "trace_ids": [
+        "tr_7ee3da039dfd"
+      ],
+      "evidence": {
+        "trace_id": "tr_7ee3da039dfd",
+        "step_indices": [
+          0,
+          1
+        ],
+        "tools": [
+          "list_files",
+          "grep"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0002",
+      "kind": "parallelize",
+      "task_id": "auth-and-dispatcher",
+      "trace_ids": [
+        "tr_94508b6a1bb0"
+      ],
+      "evidence": {
+        "trace_id": "tr_94508b6a1bb0",
+        "step_indices": [
+          1,
+          2
+        ],
+        "tools": [
+          "read_file",
+          "read_file"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0003",
+      "kind": "parallelize",
+      "task_id": "breaker-and-telemetry",
+      "trace_ids": [
+        "tr_0c0c709e70c0"
+      ],
+      "evidence": {
+        "trace_id": "tr_0c0c709e70c0",
+        "step_indices": [
+          1,
+          2
+        ],
+        "tools": [
+          "read_file",
+          "read_file"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0004",
+      "kind": "parallelize",
+      "task_id": "scheduler-and-validators",
+      "trace_ids": [
+        "tr_efab118da305"
+      ],
+      "evidence": {
+        "trace_id": "tr_efab118da305",
+        "step_indices": [
+          1,
+          2
+        ],
+        "tools": [
+          "read_file",
+          "read_file"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0009",
+      "kind": "parallelize",
+      "task_id": "routing-shard-needle",
+      "trace_ids": [
+        "tr_2ef87202bee1"
+      ],
+      "evidence": {
+        "trace_id": "tr_2ef87202bee1",
+        "step_indices": [
+          1,
+          2
+        ],
+        "tools": [
+          "read_file",
+          "grep"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0014",
+      "kind": "parallelize",
+      "task_id": "hop-cluster-reconcile",
+      "trace_ids": [
+        "tr_6411fb30db7c"
+      ],
+      "evidence": {
+        "trace_id": "tr_6411fb30db7c",
+        "step_indices": [
+          1,
+          2
+        ],
+        "tools": [
+          "read_file",
+          "grep"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0015",
+      "kind": "parallelize",
+      "task_id": "hop-cluster-reconcile",
+      "trace_ids": [
+        "tr_6411fb30db7c"
+      ],
+      "evidence": {
+        "trace_id": "tr_6411fb30db7c",
+        "step_indices": [
+          3,
+          4
+        ],
+        "tools": [
+          "read_file",
+          "read_file"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0020",
+      "kind": "parallelize",
+      "task_id": "hop-incident-shard-link",
+      "trace_ids": [
+        "tr_8b4629ad3303"
+      ],
+      "evidence": {
+        "trace_id": "tr_8b4629ad3303",
+        "step_indices": [
+          4,
+          5
+        ],
+        "tools": [
+          "read_file",
+          "read_file"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0024",
+      "kind": "parallelize",
+      "task_id": "hop-escrow-vault-route",
+      "trace_ids": [
+        "tr_f86939331756"
+      ],
+      "evidence": {
+        "trace_id": "tr_f86939331756",
+        "step_indices": [
+          1,
+          2
+        ],
+        "tools": [
+          "read_file",
+          "grep"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0025",
+      "kind": "parallelize",
+      "task_id": "hop-escrow-vault-route",
+      "trace_ids": [
+        "tr_f86939331756"
+      ],
+      "evidence": {
+        "trace_id": "tr_f86939331756",
+        "step_indices": [
+          3,
+          4
+        ],
+        "tools": [
+          "read_file",
+          "read_file"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0030",
+      "kind": "parallelize",
+      "task_id": "hop-canary-breaker-audit",
+      "trace_ids": [
+        "tr_90a2d2838517"
+      ],
+      "evidence": {
+        "trace_id": "tr_90a2d2838517",
+        "step_indices": [
+          4,
+          5
+        ],
+        "tools": [
+          "read_file",
+          "read_file"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0035",
+      "kind": "parallelize",
+      "task_id": "hop-drain-manifest-corridor",
+      "trace_ids": [
+        "tr_6a900055e963"
+      ],
+      "evidence": {
+        "trace_id": "tr_6a900055e963",
+        "step_indices": [
+          4,
+          5
+        ],
+        "tools": [
+          "read_file",
+          "grep"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0039",
+      "kind": "parallelize",
+      "task_id": "hop-witness-ledger-delta",
+      "trace_ids": [
+        "tr_ff74d03392d2"
+      ],
+      "evidence": {
+        "trace_id": "tr_ff74d03392d2",
+        "step_indices": [
+          1,
+          2
+        ],
+        "tools": [
+          "read_file",
+          "grep"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0040",
+      "kind": "parallelize",
+      "task_id": "hop-witness-ledger-delta",
+      "trace_ids": [
+        "tr_ff74d03392d2"
+      ],
+      "evidence": {
+        "trace_id": "tr_ff74d03392d2",
+        "step_indices": [
+          3,
+          4
+        ],
+        "tools": [
+          "read_file",
+          "grep"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0042",
+      "kind": "parallelize",
+      "task_id": "count-degraded-shards-a",
+      "trace_ids": [
+        "tr_6c7d150e9557"
+      ],
+      "evidence": {
+        "trace_id": "tr_6c7d150e9557",
+        "step_indices": [
+          4,
+          5
+        ],
+        "tools": [
+          "read_file",
+          "grep"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0054",
+      "kind": "parallelize",
+      "task_id": "count-total-penalty-points",
+      "trace_ids": [
+        "tr_a2fbde4cc9cd"
+      ],
+      "evidence": {
+        "trace_id": "tr_a2fbde4cc9cd",
+        "step_indices": [
+          1,
+          2
+        ],
+        "tools": [
+          "read_file",
+          "grep"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0055",
+      "kind": "parallelize",
+      "task_id": "count-total-penalty-points",
+      "trace_ids": [
+        "tr_a2fbde4cc9cd"
+      ],
+      "evidence": {
+        "trace_id": "tr_a2fbde4cc9cd",
+        "step_indices": [
+          3,
+          4
+        ],
+        "tools": [
+          "read_file",
+          "grep"
+        ],
+        "group_size": 2,
+        "steps_saved": 1
+      },
+      "est_upper_bound_savings_tokens": null,
+      "steps_saved": 1,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0033",
+      "kind": "extract_subagent",
+      "task_id": "hop-drain-manifest-corridor",
+      "trace_ids": [
+        "tr_6a900055e963"
+      ],
+      "evidence": {
+        "trace_id": "tr_6a900055e963",
+        "step_index": 6,
+        "call_id": "chatcmpl-tool-81513b1b516c9d7b",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 0,
+        "carry_cost_tokens": 0,
+        "reuse_ratio": 0.0
+      },
+      "est_upper_bound_savings_tokens": 0,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0038",
+      "kind": "extract_subagent",
+      "task_id": "hop-witness-ledger-delta",
+      "trace_ids": [
+        "tr_ff74d03392d2"
+      ],
+      "evidence": {
+        "trace_id": "tr_ff74d03392d2",
+        "step_index": 5,
+        "call_id": "chatcmpl-tool-ae2ce0ac3622ee1a",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 0,
+        "carry_cost_tokens": 0,
+        "reuse_ratio": 0.0
+      },
+      "est_upper_bound_savings_tokens": 0,
+      "steps_saved": null,
+      "confidence": "low"
+    },
+    {
+      "id": "opp_0046",
+      "kind": "extract_subagent",
+      "task_id": "count-critical-incidents",
+      "trace_ids": [
+        "tr_07c8082fdfc2"
+      ],
+      "evidence": {
+        "trace_id": "tr_07c8082fdfc2",
+        "step_index": 5,
+        "call_id": "chatcmpl-tool-8369fcb055cfd784",
+        "tool": "read_file",
+        "size_tokens": 5003,
+        "remaining_calls": 0,
+        "carry_cost_tokens": 0,
+        "reuse_ratio": 0.0
+      },
+      "est_upper_bound_savings_tokens": 0,
+      "steps_saved": null,
+      "confidence": "low"
+    }
+  ],
+  "config_hash": "5b21a6b22bba38c6",
+  "task_config_hashes": {
+    "auth-and-dispatcher": "e9925ef2c8436c0a",
+    "breaker-and-telemetry": "e548698eefd98655",
+    "codec-magic-header": "a92c5291f9bc3db7",
+    "count-critical-incidents": "415324925e29bab2",
+    "count-degraded-shards-a": "330181fe204dd2a8",
+    "count-reconcile-pending-b": "44f2caa4a7031cad",
+    "count-total-penalty-points": "74058a2fe6c7b9a0",
+    "distractor-escalation-hook": "68d8d1ce92d2fbeb",
+    "distractor-witness-cipher": "2ae2d42c684c6c12",
+    "hop-canary-breaker-audit": "3d07e5743b9b8992",
+    "hop-cluster-reconcile": "1979733f8ba91889",
+    "hop-drain-manifest-corridor": "8727c525768a0325",
+    "hop-escrow-vault-route": "e82c22a816576b03",
+    "hop-incident-shard-link": "df409aba95f89853",
+    "hop-witness-ledger-delta": "55d34967596bd216",
+    "ledger-anomaly-needle": "7980ea8d104590cf",
+    "retry-ceiling": "e0b0bcd79d12f238",
+    "routing-shard-needle": "9ed6ebbe1e5ba9cf",
+    "scheduler-and-validators": "3f0b19114ab085bc",
+    "wal-compaction": "4a76dd66450f8d48"
+  }
+}

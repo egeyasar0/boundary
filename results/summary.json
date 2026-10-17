@@ -1,0 +1,426 @@
+{
+  "run_id": "run_20261017_112132_b0dc7c",
+  "agent_variant": "baseline",
+  "model": "openai/gpt-oss-20b",
+  "total_trials": 20,
+  "total_passed": 10,
+  "overall_pass_rate": 0.5,
+  "wilson_low": 0.2992949144298199,
+  "wilson_high": 0.7007050855701801,
+  "insufficient_evidence": true,
+  "mean_tokens": 28295.45,
+  "tool_token_share": 0.30883233876824717,
+  "max_budget_ratio": 1.46045,
+  "stop_reasons": {
+    "final": 11,
+    "max_steps": 0,
+    "budget": 9,
+    "error": 0
+  },
+  "last_error": null,
+  "tasks": [
+    {
+      "task_id": "auth-and-dispatcher",
+      "trials": 1,
+      "passed_count": 1,
+      "pass_rate": 1.0,
+      "wilson_low": 0.20654329147389294,
+      "wilson_high": 1.0,
+      "insufficient_evidence": true,
+      "mean_tokens": 2406.0,
+      "tool_token_share": 0.10972568578553615,
+      "max_budget_ratio": 0.06015,
+      "stop_reasons": {
+        "final": 1,
+        "max_steps": 0,
+        "budget": 0,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "breaker-and-telemetry",
+      "trials": 1,
+      "passed_count": 1,
+      "pass_rate": 1.0,
+      "wilson_low": 0.20654329147389294,
+      "wilson_high": 1.0,
+      "insufficient_evidence": true,
+      "mean_tokens": 2419.0,
+      "tool_token_share": 0.10913600661430344,
+      "max_budget_ratio": 0.060475,
+      "stop_reasons": {
+        "final": 1,
+        "max_steps": 0,
+        "budget": 0,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "codec-magic-header",
+      "trials": 1,
+      "passed_count": 1,
+      "pass_rate": 1.0,
+      "wilson_low": 0.20654329147389294,
+      "wilson_high": 1.0,
+      "insufficient_evidence": true,
+      "mean_tokens": 2197.0,
+      "tool_token_share": 0.10104688211197087,
+      "max_budget_ratio": 0.054925,
+      "stop_reasons": {
+        "final": 1,
+        "max_steps": 0,
+        "budget": 0,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "count-critical-incidents",
+      "trials": 1,
+      "passed_count": 0,
+      "pass_rate": 0.0,
+      "wilson_low": 0.0,
+      "wilson_high": 0.7934567085261071,
+      "insufficient_evidence": true,
+      "mean_tokens": 58418.0,
+      "tool_token_share": 0.3495326782840905,
+      "max_budget_ratio": 1.46045,
+      "stop_reasons": {
+        "final": 0,
+        "max_steps": 0,
+        "budget": 1,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "count-degraded-shards-a",
+      "trials": 1,
+      "passed_count": 0,
+      "pass_rate": 0.0,
+      "wilson_low": 0.0,
+      "wilson_high": 0.7934567085261071,
+      "insufficient_evidence": true,
+      "mean_tokens": 50786.0,
+      "tool_token_share": 0.211889103296184,
+      "max_budget_ratio": 1.26965,
+      "stop_reasons": {
+        "final": 0,
+        "max_steps": 0,
+        "budget": 1,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "count-reconcile-pending-b",
+      "trials": 1,
+      "passed_count": 0,
+      "pass_rate": 0.0,
+      "wilson_low": 0.0,
+      "wilson_high": 0.7934567085261071,
+      "insufficient_evidence": true,
+      "mean_tokens": 41886.0,
+      "tool_token_share": 0.24838848302535455,
+      "max_budget_ratio": 1.04715,
+      "stop_reasons": {
+        "final": 0,
+        "max_steps": 0,
+        "budget": 1,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "count-total-penalty-points",
+      "trials": 1,
+      "passed_count": 0,
+      "pass_rate": 0.0,
+      "wilson_low": 0.0,
+      "wilson_high": 0.7934567085261071,
+      "insufficient_evidence": true,
+      "mean_tokens": 40439.0,
+      "tool_token_share": 0.25883429362743887,
+      "max_budget_ratio": 1.010975,
+      "stop_reasons": {
+        "final": 0,
+        "max_steps": 0,
+        "budget": 1,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "distractor-escalation-hook",
+      "trials": 1,
+      "passed_count": 0,
+      "pass_rate": 0.0,
+      "wilson_low": 0.0,
+      "wilson_high": 0.7934567085261071,
+      "insufficient_evidence": true,
+      "mean_tokens": 7507.0,
+      "tool_token_share": 0.669508458771813,
+      "max_budget_ratio": 0.187675,
+      "stop_reasons": {
+        "final": 1,
+        "max_steps": 0,
+        "budget": 0,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "distractor-witness-cipher",
+      "trials": 1,
+      "passed_count": 1,
+      "pass_rate": 1.0,
+      "wilson_low": 0.20654329147389294,
+      "wilson_high": 1.0,
+      "insufficient_evidence": true,
+      "mean_tokens": 7573.0,
+      "tool_token_share": 0.674633566618249,
+      "max_budget_ratio": 0.189325,
+      "stop_reasons": {
+        "final": 1,
+        "max_steps": 0,
+        "budget": 0,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "hop-canary-breaker-audit",
+      "trials": 1,
+      "passed_count": 0,
+      "pass_rate": 0.0,
+      "wilson_low": 0.0,
+      "wilson_high": 0.7934567085261071,
+      "insufficient_evidence": true,
+      "mean_tokens": 55469.0,
+      "tool_token_share": 0.27334186662820675,
+      "max_budget_ratio": 1.386725,
+      "stop_reasons": {
+        "final": 0,
+        "max_steps": 0,
+        "budget": 1,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "hop-cluster-reconcile",
+      "trials": 1,
+      "passed_count": 1,
+      "pass_rate": 1.0,
+      "wilson_low": 0.20654329147389294,
+      "wilson_high": 1.0,
+      "insufficient_evidence": true,
+      "mean_tokens": 48222.0,
+      "tool_token_share": 0.313819418522666,
+      "max_budget_ratio": 1.20555,
+      "stop_reasons": {
+        "final": 1,
+        "max_steps": 0,
+        "budget": 0,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "hop-drain-manifest-corridor",
+      "trials": 1,
+      "passed_count": 0,
+      "pass_rate": 0.0,
+      "wilson_low": 0.0,
+      "wilson_high": 0.7934567085261071,
+      "insufficient_evidence": true,
+      "mean_tokens": 46623.0,
+      "tool_token_share": 0.32526864423138796,
+      "max_budget_ratio": 1.165575,
+      "stop_reasons": {
+        "final": 0,
+        "max_steps": 0,
+        "budget": 1,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "hop-escrow-vault-route",
+      "trials": 1,
+      "passed_count": 1,
+      "pass_rate": 1.0,
+      "wilson_low": 0.20654329147389294,
+      "wilson_high": 1.0,
+      "insufficient_evidence": true,
+      "mean_tokens": 48248.0,
+      "tool_token_share": 0.3136503067484663,
+      "max_budget_ratio": 1.2062,
+      "stop_reasons": {
+        "final": 1,
+        "max_steps": 0,
+        "budget": 0,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "hop-incident-shard-link",
+      "trials": 1,
+      "passed_count": 0,
+      "pass_rate": 0.0,
+      "wilson_low": 0.0,
+      "wilson_high": 0.7934567085261071,
+      "insufficient_evidence": true,
+      "mean_tokens": 52702.0,
+      "tool_token_share": 0.287749990512694,
+      "max_budget_ratio": 1.31755,
+      "stop_reasons": {
+        "final": 0,
+        "max_steps": 0,
+        "budget": 1,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "hop-witness-ledger-delta",
+      "trials": 1,
+      "passed_count": 0,
+      "pass_rate": 0.0,
+      "wilson_low": 0.0,
+      "wilson_high": 0.7934567085261071,
+      "insufficient_evidence": true,
+      "mean_tokens": 42002.0,
+      "tool_token_share": 0.36067330127136804,
+      "max_budget_ratio": 1.05005,
+      "stop_reasons": {
+        "final": 0,
+        "max_steps": 0,
+        "budget": 1,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "ledger-anomaly-needle",
+      "trials": 1,
+      "passed_count": 1,
+      "pass_rate": 1.0,
+      "wilson_low": 0.20654329147389294,
+      "wilson_high": 1.0,
+      "insufficient_evidence": true,
+      "mean_tokens": 7901.0,
+      "tool_token_share": 0.6466270092393368,
+      "max_budget_ratio": 0.197525,
+      "stop_reasons": {
+        "final": 1,
+        "max_steps": 0,
+        "budget": 0,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "retry-ceiling",
+      "trials": 1,
+      "passed_count": 1,
+      "pass_rate": 1.0,
+      "wilson_low": 0.20654329147389294,
+      "wilson_high": 1.0,
+      "insufficient_evidence": true,
+      "mean_tokens": 1668.0,
+      "tool_token_share": 0.1211031175059952,
+      "max_budget_ratio": 0.0417,
+      "stop_reasons": {
+        "final": 1,
+        "max_steps": 0,
+        "budget": 0,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "routing-shard-needle",
+      "trials": 1,
+      "passed_count": 0,
+      "pass_rate": 0.0,
+      "wilson_low": 0.0,
+      "wilson_high": 0.7934567085261071,
+      "insufficient_evidence": true,
+      "mean_tokens": 45442.0,
+      "tool_token_share": 0.33354605871220455,
+      "max_budget_ratio": 1.13605,
+      "stop_reasons": {
+        "final": 0,
+        "max_steps": 0,
+        "budget": 1,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "scheduler-and-validators",
+      "trials": 1,
+      "passed_count": 1,
+      "pass_rate": 1.0,
+      "wilson_low": 0.20654329147389294,
+      "wilson_high": 1.0,
+      "insufficient_evidence": true,
+      "mean_tokens": 2407.0,
+      "tool_token_share": 0.11508101371001246,
+      "max_budget_ratio": 0.060175,
+      "stop_reasons": {
+        "final": 1,
+        "max_steps": 0,
+        "budget": 0,
+        "error": 0
+      },
+      "last_error": null
+    },
+    {
+      "task_id": "wal-compaction",
+      "trials": 1,
+      "passed_count": 1,
+      "pass_rate": 1.0,
+      "wilson_low": 0.20654329147389294,
+      "wilson_high": 1.0,
+      "insufficient_evidence": true,
+      "mean_tokens": 1594.0,
+      "tool_token_share": 0.11480552070263488,
+      "max_budget_ratio": 0.03985,
+      "stop_reasons": {
+        "final": 1,
+        "max_steps": 0,
+        "budget": 0,
+        "error": 0
+      },
+      "last_error": null
+    }
+  ],
+  "config_hash": "5b21a6b22bba38c6",
+  "task_config_hashes": {
+    "auth-and-dispatcher": "e9925ef2c8436c0a",
+    "breaker-and-telemetry": "e548698eefd98655",
+    "codec-magic-header": "a92c5291f9bc3db7",
+    "count-critical-incidents": "415324925e29bab2",
+    "count-degraded-shards-a": "330181fe204dd2a8",
+    "count-reconcile-pending-b": "44f2caa4a7031cad",
+    "count-total-penalty-points": "74058a2fe6c7b9a0",
+    "distractor-escalation-hook": "68d8d1ce92d2fbeb",
+    "distractor-witness-cipher": "2ae2d42c684c6c12",
+    "hop-canary-breaker-audit": "3d07e5743b9b8992",
+    "hop-cluster-reconcile": "1979733f8ba91889",
+    "hop-drain-manifest-corridor": "8727c525768a0325",
+    "hop-escrow-vault-route": "e82c22a816576b03",
+    "hop-incident-shard-link": "df409aba95f89853",
+    "hop-witness-ledger-delta": "55d34967596bd216",
+    "ledger-anomaly-needle": "7980ea8d104590cf",
+    "retry-ceiling": "e0b0bcd79d12f238",
+    "routing-shard-needle": "9ed6ebbe1e5ba9cf",
+    "scheduler-and-validators": "3f0b19114ab085bc",
+    "wal-compaction": "4a76dd66450f8d48"
+  }
+}
