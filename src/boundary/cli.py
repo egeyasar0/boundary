@@ -23,6 +23,12 @@ from boundary.report import (
     summarize_run,
 )
 from boundary.runner import run_suite
+from boundary.synthesize import (
+    VARIANT_CONFIG_FILENAME,
+    load_or_build_profile_for_synthesis,
+    save_variant_config,
+    synthesize_variant,
+)
 from boundary.tasks import load_tasks
 from boundary.traces import read_traces
 
@@ -229,6 +235,34 @@ def profile_cmd(
     else:
         run_id = run_dir.stem if run_dir.is_file() else run_dir.name
         render_profile_report(profile, run_id=run_id, top=top, console=console)
+
+
+@app.command("synthesize")
+def synthesize_cmd(
+    run_dir: Annotated[
+        Path,
+        typer.Argument(help="Path to run directory or profile.json file."),
+    ],
+    out: Annotated[
+        Path | None,
+        typer.Option("--out", help="Output path for variant_config.json."),
+    ] = None,
+) -> None:
+    """Deterministically synthesize a sub-agent VariantConfig from profile.json (M10 — R13)."""
+    console = Console()
+    try:
+        profile, path_lookup, base_dir = load_or_build_profile_for_synthesis(run_dir)
+    except FileNotFoundError as exc:
+        console.print(f"No profile found: {exc}")
+        raise typer.Exit(code=1) from None
+
+    config = synthesize_variant(profile, target_paths_by_call=path_lookup)
+    target_out = out if out is not None else (base_dir / VARIANT_CONFIG_FILENAME)
+    written_path = save_variant_config(config, target_out)
+    console.print(
+        f"Synthesized variant '{config.variant_name}' with {len(config.rules)} task rule(s) "
+        f"-> {written_path}"
+    )
 
 
 @app.command("check")
