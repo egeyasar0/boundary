@@ -1,0 +1,11 @@
+id: distractor-witness-cipher
+prompt: "In shard_ledger_b.py, report the exact production FAILOVER_WITNESS_CIPHER_PRIMARY and WITNESS_SALT_HEX_PRIMARY values (do not report testnet or standby values)."
+checker:
+  type: contains_all
+  expected:
+    - "cipher-alabaster-8513"
+    - "salt-obsidia-4902"
+max_steps: 20
+tags:
+  - hard
+  - distractor

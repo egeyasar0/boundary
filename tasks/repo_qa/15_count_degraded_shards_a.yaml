@@ -1,0 +1,9 @@
+id: count-degraded-shards-a
+prompt: "In shard_ledger_a.py, count how many entries in SHARD_LEDGER_A_ENTRIES have both state == 'DEGRADED_QUORUM' and region == 'eu-central-vault'. On the final line, write Answer: <N>"
+checker:
+  type: regex
+  expected: "Answer:\\s*9\\b"
+max_steps: 20
+tags:
+  - hard
+  - count

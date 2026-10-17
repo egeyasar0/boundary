@@ -1,0 +1,11 @@
+id: hop-cluster-reconcile
+prompt: "In shard_ledger_a.py, find the entry with state RECONCILE_BRIDGE_ALPHA, note its reconcile_token and linked_b_batch, then look up that batch_id in shard_ledger_b.py and report both the reconcile_token and the settlement_digest."
+checker:
+  type: contains_all
+  expected:
+    - "REC-solstice-4409"
+    - "DIGEST-krypton-9183"
+max_steps: 20
+tags:
+  - hard
+  - multi-hop

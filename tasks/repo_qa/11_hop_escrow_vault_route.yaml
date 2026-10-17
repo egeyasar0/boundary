@@ -1,0 +1,11 @@
+id: hop-escrow-vault-route
+prompt: "In shard_ledger_a.py, locate the entry with state ESCROW_LOCKED_VAULT, read its escrow_seal and linked_incident_code, then look up that incident in incident_manifest.py and report both the escrow_seal and the vault_recovery_key."
+checker:
+  type: contains_all
+  expected:
+    - "SEAL-vanguard-5823"
+    - "RECOVERY-onyx-4189"
+max_steps: 20
+tags:
+  - hard
+  - multi-hop

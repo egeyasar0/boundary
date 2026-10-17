@@ -1,0 +1,9 @@
+id: count-reconcile-pending-b
+prompt: "In shard_ledger_b.py, count how many entries in SHARD_LEDGER_B_ENTRIES have sync_phase == 'PENDING_MERKLE_PROOF'. On the final line, write Answer: <N>"
+checker:
+  type: regex
+  expected: "Answer:\\s*13\\b"
+max_steps: 20
+tags:
+  - hard
+  - count

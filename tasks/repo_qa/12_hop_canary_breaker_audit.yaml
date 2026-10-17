@@ -1,0 +1,11 @@
+id: hop-canary-breaker-audit
+prompt: "In shard_ledger_a.py, find the entry with state CANARY_TRIPWIRE_ARMED, get its canary_digest and linked_b_batch, then locate that batch_id in shard_ledger_b.py and report both the canary_digest and the breaker_override_key."
+checker:
+  type: contains_all
+  expected:
+    - "CANARY-orion-6311"
+    - "OVERRIDE-cobalt-5149"
+max_steps: 20
+tags:
+  - hard
+  - multi-hop

@@ -1,0 +1,9 @@
+id: count-critical-incidents
+prompt: "In incident_manifest.py, count how many records in INCIDENT_MANIFEST_RECORDS have severity == 'SEV1_CONTAINMENT' and acknowledged == False. On the final line, write Answer: <N>"
+checker:
+  type: regex
+  expected: "Answer:\\s*11\\b"
+max_steps: 20
+tags:
+  - hard
+  - count

@@ -1,0 +1,11 @@
+id: hop-incident-shard-link
+prompt: "In shard_ledger_b.py, find the entry with sync_phase INCIDENT_CROSS_LINKED, get its shard_b_voucher and linked_incident_code, then find that incident_id in incident_manifest.py and report both the shard_b_voucher and the postmortem_ticket."
+checker:
+  type: contains_all
+  expected:
+    - "VOUCHER-titanium-6671"
+    - "PM-aurora-9317"
+max_steps: 20
+tags:
+  - hard
+  - multi-hop

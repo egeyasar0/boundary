@@ -1,0 +1,11 @@
+id: hop-drain-manifest-corridor
+prompt: "In shard_ledger_b.py, locate the entry with sync_phase CORRIDOR_DRAIN_LOCKED, note its drain_corridor_hash and linked_incident_code, then find that incident in incident_manifest.py and report both the drain_corridor_hash and the manifest_clearance_id."
+checker:
+  type: contains_all
+  expected:
+    - "CORRIDOR-nebula-2743"
+    - "CLEARANCE-helix-7529"
+max_steps: 20
+tags:
+  - hard
+  - multi-hop

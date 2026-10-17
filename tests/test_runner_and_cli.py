@@ -29,6 +29,18 @@ EXPECTED_ANSWERS_BY_ORDER: list[str] = [
     "epoch-zircon-5521 and 9487",
     "AUD-zephyr-7309 and 8147",
     "SHARD-caldera-9043 and 59127",
+    "REC-solstice-4409 and DIGEST-krypton-9183",
+    "VOUCHER-titanium-6671 and PM-aurora-9317",
+    "SEAL-vanguard-5823 and RECOVERY-onyx-4189",
+    "CANARY-orion-6311 and OVERRIDE-cobalt-5149",
+    "CORRIDOR-nebula-2743 and CLEARANCE-helix-7529",
+    "VEC-polaris-3907 and ACK-zenith-8461",
+    "Answer: 9",
+    "Answer: 11",
+    "Answer: 13",
+    "Answer: 125",
+    "hook-valkyrie-7741 and nonce-celeste-6029",
+    "cipher-alabaster-8513 and salt-obsidia-4902",
 ]
 
 
@@ -167,7 +179,7 @@ def test_cli_run_and_report_end_to_end(
     )
     assert res_run.exit_code == 0, res_run.output
     assert captured_timeout == [45.0]
-    assert "24 traces written" in res_run.output
+    assert "60 traces written" in res_run.output
 
     run_subdirs = [p for p in out_dir.iterdir() if p.is_dir()]
     assert len(run_subdirs) == 1
@@ -175,8 +187,8 @@ def test_cli_run_and_report_end_to_end(
 
     res_report = runner.invoke(app, ["report", str(created_run_dir)])
     assert res_report.exit_code == 0, res_report.output
-    assert "24/24 (100.0%)" in res_report.output
-    assert "Budget Stop Rate (budget oranı): 0/24 (0.0%)" in res_report.output
+    assert "60/60 (100.0%)" in res_report.output
+    assert "Budget Stop Rate (budget oranı): 0/60 (0.0%)" in res_report.output
 
 
 def test_runner_continues_after_timeout(tmp_path: Path) -> None:

@@ -1,0 +1,11 @@
+id: distractor-escalation-hook
+prompt: "Find the production active v2 quarantine escalation hook (QUARANTINE_ESCALATION_HOOK_V2_ACTIVE) and its matching active nonce (QUARANTINE_ESCALATION_NONCE_ACTIVE), ignoring v1 and shadow distractors."
+checker:
+  type: contains_all
+  expected:
+    - "hook-valkyrie-7741"
+    - "nonce-celeste-6029"
+max_steps: 20
+tags:
+  - hard
+  - distractor

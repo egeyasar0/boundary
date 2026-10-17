@@ -1,0 +1,9 @@
+id: count-total-penalty-points
+prompt: "In shard_ledger_b.py, compute the sum of penalty_points across all entries in SHARD_LEDGER_B_ENTRIES where tier == 'PLATINUM_CORE'. On the final line, write Answer: <N>"
+checker:
+  type: regex
+  expected: "Answer:\\s*125\\b"
+max_steps: 20
+tags:
+  - hard
+  - count

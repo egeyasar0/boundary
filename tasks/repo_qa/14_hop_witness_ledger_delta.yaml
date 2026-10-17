@@ -1,0 +1,11 @@
+id: hop-witness-ledger-delta
+prompt: "In shard_ledger_a.py, find the entry with state WITNESS_DELTA_SYNC, record its delta_vector and linked_incident_code, then look up that incident in incident_manifest.py and report both the delta_vector and the witness_ack_signature."
+checker:
+  type: contains_all
+  expected:
+    - "VEC-polaris-3907"
+    - "ACK-zenith-8461"
+max_steps: 20
+tags:
+  - hard
+  - multi-hop
