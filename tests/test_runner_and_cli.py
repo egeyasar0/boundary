@@ -260,3 +260,47 @@ def test_runner_creates_trace_file_at_start_and_preserves_completed_on_interrupt
     assert saved[0].passed is True
 
 
+def test_report_missing_or_empty_traces_and_last_error_display(tmp_path: Path) -> None:
+    runner = CliRunner()
+
+    # 1. Missing directory / traces.jsonl
+    res_missing = runner.invoke(app, ["report", str(tmp_path / "does_not_exist")])
+    assert res_missing.exit_code == 1
+    assert "No traces found" in res_missing.output
+    assert "Traceback" not in res_missing.output
+
+    # 2. Empty traces.jsonl
+    empty_run = tmp_path / "empty_run"
+    empty_run.mkdir()
+    (empty_run / "traces.jsonl").write_text("", encoding="utf-8")
+    res_empty = runner.invoke(app, ["report", str(empty_run)])
+    assert res_empty.exit_code == 1
+    assert "No traces found" in res_empty.output
+    assert "is empty" in res_empty.output
+    assert "Traceback" not in res_empty.output
+
+    # 3. Error trace with >200 chars error message displays first 200 chars under "Son hata"
+    long_error = "ERR_PREFIX_" + ("Z" * 240)
+    tasks = load_tasks(TASKS_DIR)[:1]
+    err_run_dir, _ = run_suite(
+        tasks=tasks,
+        llm=FakeLLM([RuntimeError(long_error)]),
+        root_dir=FIXTURE_DIR,
+        out_dir=tmp_path / "runs",
+        trials=1,
+        run_id="run_with_err",
+    )
+
+    traces = read_traces(err_run_dir)
+    summary = summarize_run(traces, run_id="run_with_err")
+    assert summary.last_error is not None
+    assert len(summary.last_error) == 200
+    assert summary.tasks[0].last_error == long_error[:200]
+
+    res_err_report = runner.invoke(app, ["report", str(err_run_dir)])
+    assert res_err_report.exit_code == 0, res_err_report.output
+    assert "Son hata" in res_err_report.output
+    assert f"Son hata: {long_error[:200]}" in res_err_report.output
+
+
+

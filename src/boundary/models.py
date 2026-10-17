@@ -136,6 +136,7 @@ class TaskSummary(BaseModel):
     mean_tokens: float
     tool_token_share: float
     stop_reasons: dict[StopReason, int]
+    last_error: str | None = None
 
 
 class RunSummary(BaseModel):
@@ -153,6 +154,7 @@ class RunSummary(BaseModel):
     mean_tokens: float
     tool_token_share: float
     stop_reasons: dict[StopReason, int]
+    last_error: str | None = None
     tasks: list[TaskSummary]
 
 

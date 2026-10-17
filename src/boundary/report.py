@@ -36,8 +36,11 @@ def _aggregate_traces(task_id: str, traces: Sequence[Trace]) -> TaskSummary:
     tool_share = min(1.0, (tool_tokens / total_tokens)) if total_tokens > 0 else 0.0
 
     stop_counts: dict[StopReason, int] = {reason: 0 for reason in ALL_STOP_REASONS}
+    last_error: str | None = None
     for t in traces:
         stop_counts[t.stop_reason] = stop_counts.get(t.stop_reason, 0) + 1
+        if t.stop_reason == "error" and t.error:
+            last_error = t.error[:200]
 
     return TaskSummary(
         task_id=task_id,
@@ -50,6 +53,7 @@ def _aggregate_traces(task_id: str, traces: Sequence[Trace]) -> TaskSummary:
         mean_tokens=mean_tokens,
         tool_token_share=tool_share,
         stop_reasons=stop_counts,
+        last_error=last_error,
     )
 
 
@@ -78,11 +82,12 @@ def summarize_run(traces: Sequence[Trace], *, run_id: str = "run") -> RunSummary
         overall_pass_rate=overall.pass_rate,
         wilson_low=overall.wilson_low,
         wilson_high=overall.wilson_high,
-        insufficient_evidence= all(ts.insufficient_evidence for ts in task_summaries)
+        insufficient_evidence=all(ts.insufficient_evidence for ts in task_summaries)
         or overall.insufficient_evidence,
         mean_tokens=overall.mean_tokens,
         tool_token_share=overall.tool_token_share,
         stop_reasons=overall.stop_reasons,
+        last_error=overall.last_error,
         tasks=task_summaries,
     )
 
@@ -103,7 +108,7 @@ def _format_stop_reasons(stop_reasons: dict[StopReason, int], total: int) -> str
 def render_report(summary: RunSummary, *, console: Console | None = None) -> str:
     """Render RunSummary via Rich table and summary panel, returning rendered plain/ANSI text."""
     buf = StringIO()
-    out_console = Console(file=buf, width=140, force_terminal=False)
+    out_console = Console(file=buf, width=240, force_terminal=False)
 
     table = Table(title=f"Boundary Baseline Report — {summary.run_id} (model: {summary.model})")
     table.add_column("Task ID", style="bold", no_wrap=True)
@@ -113,6 +118,7 @@ def render_report(summary: RunSummary, *, console: Console | None = None) -> str
     table.add_column("Mean Tokens", justify="right")
     table.add_column("Tool Token Share", justify="right")
     table.add_column("Stop Reasons (budget highlight)", justify="left")
+    table.add_column("Son hata", justify="left", overflow="fold")
 
     for ts in summary.tasks:
         evidence_str = "yetersiz kanıt" if ts.insufficient_evidence else "ok"
@@ -124,6 +130,7 @@ def render_report(summary: RunSummary, *, console: Console | None = None) -> str
             f"{ts.mean_tokens:.1f}",
             f"{ts.tool_token_share * 100:.1f}%",
             _format_stop_reasons(ts.stop_reasons, ts.trials),
+            ts.last_error or "-",
         )
 
     out_console.print(table)
@@ -158,10 +165,12 @@ def render_report(summary: RunSummary, *, console: Console | None = None) -> str
             f"Budget Stop Rate (budget oranı): "
             f"{budget_count}/{summary.total_trials} ({budget_rate:.1f}%)"
         ),
+        f"Son hata: {summary.last_error or '-'}",
     ]
     out_console.print(Panel("\n".join(summary_lines), title="Run Summary"))
 
     rendered = buf.getvalue()
     if console is not None:
-        console.print(rendered, end="")
+        console.file.write(rendered)
+        console.file.flush()
     return rendered

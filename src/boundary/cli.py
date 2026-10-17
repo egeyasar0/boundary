@@ -106,7 +106,16 @@ def report_cmd(
 ) -> None:
     """Render cost-quality and stop_reason summary report for an existing run."""
     console = Console()
-    traces = read_traces(run_path)
+    try:
+        traces = read_traces(run_path)
+    except FileNotFoundError:
+        console.print(f"No traces found: '{run_path}' does not exist or has no traces.jsonl.")
+        raise typer.Exit(code=1) from None
+
+    if not traces:
+        console.print(f"No traces found: '{run_path}' is empty.")
+        raise typer.Exit(code=1)
+
     run_id = run_path.stem if run_path.is_file() else run_path.name
     summary = summarize_run(traces, run_id=run_id)
     render_report(summary, console=console)
