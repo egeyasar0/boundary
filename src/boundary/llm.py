@@ -8,10 +8,12 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import Any, Protocol, runtime_checkable
 
-from openai import OpenAI
+from openai import APITimeoutError, OpenAI
 from pydantic import BaseModel, Field
 
 from boundary.models import ToolCall, Usage, sanitize_error_message
+
+DEFAULT_TIMEOUT_SECONDS: float = 120.0
 
 
 class LLMError(RuntimeError):
@@ -139,6 +141,9 @@ class FakeLLM:
         item = self._script[self._index]
         self._index += 1
 
+        if isinstance(item, (APITimeoutError, TimeoutError)):
+            raise LLMError("request timeout")
+
         if isinstance(item, Exception):
             raise LLMError(sanitize_error_message(str(item)))
 
@@ -158,7 +163,7 @@ class FakeLLM:
 
 
 class OpenAICompatClient:
-    """OpenAI-compatible client supporting custom base_url and error sanitization (R7)."""
+    """OpenAI-compatible client supporting custom base_url, timeout, and error sanitization (R7)."""
 
     def __init__(
         self,
@@ -167,6 +172,7 @@ class OpenAICompatClient:
         base_url: str | None = None,
         model: str | None = None,
         temperature: float = 0.0,
+        timeout: float = DEFAULT_TIMEOUT_SECONDS,
     ) -> None:
         resolved_key = api_key if api_key is not None else os.environ.get("BOUNDARY_API_KEY", "")
         resolved_url = base_url if base_url is not None else os.environ.get("BOUNDARY_BASE_URL")
@@ -178,9 +184,11 @@ class OpenAICompatClient:
         self._base_url: str | None = resolved_url or None
         self._model: str = resolved_model
         self.temperature: float = temperature
+        self.timeout: float = timeout
         self._client = OpenAI(
             api_key=self._api_key or "missing-api-key",
             base_url=self._base_url,
+            timeout=self.timeout,
         )
 
     @property
@@ -191,7 +199,7 @@ class OpenAICompatClient:
     def __repr__(self) -> str:
         return (
             f"OpenAICompatClient(model={self._model!r}, "
-            f"base_url={self._base_url!r}, api_key='[REDACTED]')"
+            f"base_url={self._base_url!r}, timeout={self.timeout!r}, api_key='[REDACTED]')"
         )
 
     def complete(
@@ -208,6 +216,7 @@ class OpenAICompatClient:
             "model": self._model,
             "messages": messages,
             "temperature": self.temperature,
+            "timeout": self.timeout,
         }
         if tools:
             kwargs["tools"] = tools
@@ -216,6 +225,8 @@ class OpenAICompatClient:
 
         try:
             response = self._client.chat.completions.create(**kwargs)
+        except (APITimeoutError, TimeoutError):
+            raise LLMError("request timeout") from None
         except Exception as exc:
             sanitized = sanitize_error_message(str(exc), secrets=[self._api_key])
             raise LLMError(sanitized) from None

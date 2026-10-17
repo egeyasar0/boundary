@@ -258,3 +258,34 @@ def test_openai_compat_client_sanitizes_repr_and_exceptions(
     err_str = str(exc_info.value)
     assert "sk-test-secret-value-999999" not in err_str
     assert "[REDACTED]" in err_str
+
+
+def test_request_timeout_records_error_and_trace_message(
+    sandbox: ToolSandbox, sample_task: Task, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    client = OpenAICompatClient(
+        api_key="sk-test-secret",
+        base_url="http://127.0.0.1:9999/v1",
+        model="local-model",
+    )
+    assert client.timeout == 120.0
+
+    custom_client = OpenAICompatClient(
+        api_key="sk-test-secret",
+        base_url="http://127.0.0.1:9999/v1",
+        model="local-model",
+        timeout=15.0,
+    )
+    assert custom_client.timeout == 15.0
+
+    def _timeout_call(**kwargs: Any) -> Any:
+        assert kwargs.get("timeout") == 15.0
+        raise TimeoutError("Read timed out after 15.0s")
+
+    monkeypatch.setattr(custom_client._client.chat.completions, "create", _timeout_call)
+
+    trace = run_agent(task=sample_task, llm=custom_client, sandbox=sandbox)
+    assert trace.stop_reason == "error"
+    assert trace.error == "request timeout"
+    assert trace.passed is False
+

@@ -8,7 +8,7 @@ from typing import Annotated
 import typer
 from rich.console import Console
 
-from boundary.llm import LLMClient, OpenAICompatClient
+from boundary.llm import DEFAULT_TIMEOUT_SECONDS, LLMClient, OpenAICompatClient
 from boundary.report import render_report, summarize_run
 from boundary.runner import run_suite
 from boundary.tasks import load_tasks
@@ -25,12 +25,14 @@ def create_llm_client(
     *,
     model: str | None = None,
     base_url: str | None = None,
+    timeout: float = DEFAULT_TIMEOUT_SECONDS,
 ) -> LLMClient:
     """Create the LLM client; API key is read strictly from BOUNDARY_API_KEY (R7)."""
     return OpenAICompatClient(
         api_key=None,
         base_url=base_url,
         model=model,
+        timeout=timeout,
     )
 
 
@@ -71,11 +73,15 @@ def run_cmd(
         int | None,
         typer.Option("--seed", help="Optional base random seed for reproducibility."),
     ] = None,
+    timeout: Annotated[
+        float,
+        typer.Option("--timeout", min=0.1, help="LLM request timeout in seconds."),
+    ] = DEFAULT_TIMEOUT_SECONDS,
 ) -> None:
     """Run single-agent baseline across tasks and trials, writing JSONL traces."""
     console = Console()
     task_list = load_tasks(tasks)
-    llm = create_llm_client(model=model, base_url=base_url)
+    llm = create_llm_client(model=model, base_url=base_url, timeout=timeout)
 
     run_dir, traces = run_suite(
         tasks=task_list,

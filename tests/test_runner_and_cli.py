@@ -128,9 +128,15 @@ def test_cli_run_and_report_end_to_end(
 
     fake_llm = FakeLLM(turns, model="fake-cli-model")
 
+    captured_timeout: list[float] = []
+
     def _fake_factory(
-        *, model: str | None = None, base_url: str | None = None
+        *,
+        model: str | None = None,
+        base_url: str | None = None,
+        timeout: float = 120.0,
     ) -> LLMClient:
+        captured_timeout.append(timeout)
         return fake_llm
 
     monkeypatch.setattr(cli_mod, "create_llm_client", _fake_factory)
@@ -155,9 +161,12 @@ def test_cli_run_and_report_end_to_end(
             "fake-cli-model",
             "--seed",
             "7",
+            "--timeout",
+            "45",
         ],
     )
     assert res_run.exit_code == 0, res_run.output
+    assert captured_timeout == [45.0]
     assert "24 traces written" in res_run.output
 
     run_subdirs = [p for p in out_dir.iterdir() if p.is_dir()]
@@ -168,3 +177,30 @@ def test_cli_run_and_report_end_to_end(
     assert res_report.exit_code == 0, res_report.output
     assert "24/24 (100.0%)" in res_report.output
     assert "Budget Stop Rate (budget oranı): 0/24 (0.0%)" in res_report.output
+
+
+def test_runner_continues_after_timeout(tmp_path: Path) -> None:
+    tasks = load_tasks(TASKS_DIR)[:1]
+    fake_llm = FakeLLM(
+        [
+            TimeoutError("simulated timeout on trial 1"),
+            FakeTurn(
+                assistant_content="7919 decorrelated-halcyon-v4",
+                usage=Usage(prompt_tokens=80, completion_tokens=20, source="api"),
+            ),
+        ]
+    )
+    _, traces = run_suite(
+        tasks=tasks,
+        llm=fake_llm,
+        root_dir=FIXTURE_DIR,
+        out_dir=tmp_path / "runs",
+        trials=2,
+        token_budget=5_000,
+    )
+    assert len(traces) == 2
+    assert traces[0].stop_reason == "error"
+    assert traces[0].error == "request timeout"
+    assert traces[1].stop_reason == "final"
+    assert traces[1].passed is True
+
