@@ -101,6 +101,12 @@ def test_compute_config_hash_all_fields_and_no_api_key() -> None:
         "system_prompt": "You are a baseline agent.",
         "tools": ["read_file", "list_files", "grep"],
         "task_id": "task-1",
+        "token_budget": 40_000,
+        "max_steps": 20,
+        "max_output_chars": 20_000,
+        "grep_max_matches": 200,
+        "grep_max_line_chars": 500,
+        "grep_max_file_bytes": 1_000_000,
         "seed": 42,
         "parameters": {"temperature": 0.0},
     }
@@ -110,8 +116,18 @@ def test_compute_config_hash_all_fields_and_no_api_key() -> None:
         system_prompt="You are a baseline agent.",
         tools=["grep", "list_files", "read_file"],
         task_id="task-1",
+        token_budget=40_000,
+        max_steps=20,
+        max_output_chars=20_000,
+        grep_max_matches=200,
+        grep_max_line_chars=500,
+        grep_max_file_bytes=1_000_000,
         seed=42,
-        parameters={"temperature": 0.0, "api_key": "sk-secret-do-not-hash"},
+        parameters={
+            "temperature": 0.0,
+            "api_key": "sk-secret-do-not-hash",
+            "client_secret": "top-secret",
+        },
     )
     assert h1 == h2
     assert len(h1) == 16
@@ -120,8 +136,19 @@ def test_compute_config_hash_all_fields_and_no_api_key() -> None:
     assert compute_config_hash(**{**base_kwargs, "system_prompt": "Other"}) != h1  # type: ignore[arg-type]
     assert compute_config_hash(**{**base_kwargs, "tools": ["read_file"]}) != h1  # type: ignore[arg-type]
     assert compute_config_hash(**{**base_kwargs, "task_id": "task-2"}) != h1  # type: ignore[arg-type]
+    assert compute_config_hash(**{**base_kwargs, "token_budget": 10_000}) != h1  # type: ignore[arg-type]
+    assert compute_config_hash(**{**base_kwargs, "max_steps": 12}) != h1  # type: ignore[arg-type]
+    assert compute_config_hash(**{**base_kwargs, "max_output_chars": 5_000}) != h1  # type: ignore[arg-type]
+    assert compute_config_hash(**{**base_kwargs, "grep_max_matches": 50}) != h1  # type: ignore[arg-type]
+    assert compute_config_hash(**{**base_kwargs, "grep_max_line_chars": 120}) != h1  # type: ignore[arg-type]
+    assert compute_config_hash(**{**base_kwargs, "grep_max_file_bytes": 500_000}) != h1  # type: ignore[arg-type]
     assert compute_config_hash(**{**base_kwargs, "seed": 99}) != h1  # type: ignore[arg-type]
     assert compute_config_hash(**{**base_kwargs, "parameters": {"temperature": 0.7}}) != h1  # type: ignore[arg-type]
+    # Prove safe_params keeps token_budget / max_tokens keys while stripping api_key / secret
+    h_with_param_budget = compute_config_hash(
+        **{**base_kwargs, "parameters": {"temperature": 0.0, "token_budget": 9999}}  # type: ignore[arg-type]
+    )
+    assert h_with_param_budget != h1
 
 
 def test_run_summary_model() -> None:

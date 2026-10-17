@@ -126,6 +126,12 @@ def compute_config_hash(
     system_prompt: str,
     tools: list[str],
     task_id: str,
+    token_budget: int = 40_000,
+    max_steps: int = 20,
+    max_output_chars: int = 20_000,
+    grep_max_matches: int = 200,
+    grep_max_line_chars: int = 500,
+    grep_max_file_bytes: int = 1_000_000,
     seed: int | None = None,
     parameters: dict[str, Any] | None = None,
 ) -> str:
@@ -140,6 +146,14 @@ def compute_config_hash(
         "system_prompt": system_prompt,
         "tools": sorted(tools),
         "task_id": task_id,
+        "token_budget": token_budget,
+        "max_steps": max_steps,
+        "tool_bounds": {
+            "max_output_chars": max_output_chars,
+            "grep_max_matches": grep_max_matches,
+            "grep_max_line_chars": grep_max_line_chars,
+            "grep_max_file_bytes": grep_max_file_bytes,
+        },
         "seed": seed,
         "parameters": safe_params,
     }
