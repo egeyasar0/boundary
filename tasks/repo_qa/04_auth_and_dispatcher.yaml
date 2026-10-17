@@ -1,0 +1,11 @@
+id: auth-and-dispatcher
+prompt: "Find both the HMAC_KEY_RING_ID defined in the authentication module and the DEAD_LETTER_DRAIN_SECONDS value defined in the task dispatcher module."
+checker:
+  type: contains_all
+  expected:
+    - "kr-obsidian-6173"
+    - "3467"
+max_steps: 16
+tags:
+  - medium
+  - multi-file

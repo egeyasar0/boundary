@@ -1,0 +1,11 @@
+id: breaker-and-telemetry
+prompt: "What is the HALF_OPEN_PROBE_QUOTA in the circuit breaker module and the OTLP_FLUSH_BATCH_SIZE in the telemetry module?"
+checker:
+  type: contains_all
+  expected:
+    - "1973"
+    - "6217"
+max_steps: 16
+tags:
+  - medium
+  - multi-file

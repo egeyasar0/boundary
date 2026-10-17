@@ -1,0 +1,11 @@
+id: scheduler-and-validators
+prompt: "Report the LEASE_FENCING_EPOCH_SEED from the scheduler module and the MAX_TENANT_BURST_CREDITS from the validators module."
+checker:
+  type: contains_all
+  expected:
+    - "epoch-zircon-5521"
+    - "9487"
+max_steps: 16
+tags:
+  - medium
+  - multi-file

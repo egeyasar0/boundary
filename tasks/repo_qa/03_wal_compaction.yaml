@@ -1,0 +1,11 @@
+id: wal-compaction
+prompt: "In the storage module, what is the WAL_CHECKPOINT_BLOCKS integer threshold and the SNAPSHOT_ARCHIVE_SUFFIX string?"
+checker:
+  type: regex
+  expected:
+    - "\\b4391\\b"
+    - "\\.vxg-cold-z9"
+max_steps: 12
+tags:
+  - easy
+  - single-file

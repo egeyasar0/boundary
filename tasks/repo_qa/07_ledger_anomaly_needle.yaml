@@ -1,0 +1,11 @@
+id: ledger-anomaly-needle
+prompt: "In ledger_archive.py, find the single ledger entry marked with status QUARANTINED_DRIFT and report its audit_ticket_id and drift_ppm value."
+checker:
+  type: contains_all
+  expected:
+    - "AUD-zephyr-7309"
+    - "8147"
+max_steps: 20
+tags:
+  - hard
+  - needle-in-haystack

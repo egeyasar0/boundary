@@ -1,0 +1,11 @@
+id: routing-shard-needle
+prompt: "In routing_matrix.py, locate the shard route whose failover_mode is STRICT_AIRGAP_ISOLATION and report its shard_code and witness_port."
+checker:
+  type: contains_all
+  expected:
+    - "SHARD-caldera-9043"
+    - "59127"
+max_steps: 20
+tags:
+  - hard
+  - needle-in-haystack

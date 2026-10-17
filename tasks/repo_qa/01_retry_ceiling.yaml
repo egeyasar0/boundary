@@ -1,0 +1,11 @@
+id: retry-ceiling
+prompt: "In the VeloxGrid client module, what is the exact value of MAX_BACKOFF_JITTER_MS and what is the BACKOFF_STRATEGY_TAG string?"
+checker:
+  type: contains_all
+  expected:
+    - "7919"
+    - "decorrelated-halcyon-v4"
+max_steps: 12
+tags:
+  - easy
+  - single-file

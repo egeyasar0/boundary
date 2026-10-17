@@ -1,0 +1,5 @@
+[project]
+name = "velox-grid"
+version = "0.4.2"
+description = "Synthetic telemetry and dispatch engine fixture"
+requires-python = ">=3.12"

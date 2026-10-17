@@ -1,0 +1,9 @@
+id: codec-magic-header
+prompt: "What is the exact FRAME_MAGIC_SIGNATURE string defined in the frame codec module? Reply with only the signature string."
+checker:
+  type: exact_normalized
+  expected: "VXG-KRYPTON-8831"
+max_steps: 12
+tags:
+  - easy
+  - single-file
