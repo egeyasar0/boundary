@@ -1,9 +1,10 @@
-"""Single-agent baseline loop with token budget and step limits (M3).
+"""Single-agent and subagent-delegated loop with token budget and step limits (M3, M9, M11).
 
-Token Budget Rule (R2):
+Token Budget Rule (R2, R12):
 The token budget is checked BEFORE each LLM call (`total_tokens >= token_budget`).
-If the accumulated usage from prior steps is greater than or equal to `token_budget`,
-the loop terminates before making another LLM request with `stop_reason="budget"`.
+If the accumulated usage from prior steps (including all tokens spent by any isolated
+`SubagentRunner` per R12) is greater than or equal to `token_budget`, the loop terminates
+before making another LLM request with `stop_reason="budget"`.
 An in-flight LLM call is never interrupted mid-call, and its actual token consumption
 is always recorded in `Trace.total_usage`.
 """
@@ -14,13 +15,14 @@ import json
 import time
 import uuid
 from collections.abc import Callable
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from boundary.llm import LLMClient
 from boundary.models import (
     Step,
     StopReason,
     Task,
+    ToolCall,
     ToolResult,
     Trace,
     Usage,
@@ -29,6 +31,9 @@ from boundary.models import (
     sanitize_error_message,
 )
 from boundary.tools import TOOL_NAMES, TOOL_SCHEMAS, ToolSandbox
+
+if TYPE_CHECKING:
+    from boundary.subagent import SubagentRunner
 
 SYSTEM_PROMPT: str = (
     "You are a precise repository question-answering agent. "
@@ -48,19 +53,34 @@ def run_agent(
     parameters: dict[str, Any] | None = None,
     answer_checker: Callable[[str | None], bool] | None = None,
     trace_id: str | None = None,
+    subagent_runner: SubagentRunner | None = None,
+    should_delegate: Callable[[ToolCall], bool] | None = None,
+    agent_variant: str = "baseline",
+    tool_schemas: list[dict[str, Any]] | None = None,
 ) -> Trace:
-    """Execute the single-agent baseline loop for one task trial.
+    """Execute the agent loop for one task trial (baseline or subagent variant).
 
     Token budget is checked BEFORE each LLM call
     (`total >= token_budget` -> `stop_reason="budget"`).
-    Ongoing LLM calls are never interrupted; actual token usage is recorded in `Trace.total_usage`.
-    Invalid tool calls or malformed JSON arguments are returned as readable `ToolResult` errors
-    so the agent can recover; `stop_reason="error"` is reserved for LLM/infrastructure exceptions.
+    When `subagent_runner` is active and `should_delegate(tc)` is True, the tool call is
+    routed to an isolated `SubagentRunner` (R11) and all sub-agent prompt + completion tokens
+    are added to the parent agent's global token counters and `Trace.total_usage` (R12).
     """
+    active_schemas = tool_schemas if tool_schemas is not None else TOOL_SCHEMAS
+    active_tool_names = [
+        str(s.get("function", {}).get("name", ""))
+        for s in active_schemas
+        if isinstance(s.get("function"), dict)
+    ] or list(TOOL_NAMES)
+
+    extra_params = dict(parameters or {})
+    if agent_variant != "baseline":
+        extra_params["agent_variant"] = agent_variant
+
     config_hash = compute_config_hash(
         model=llm.model,
         system_prompt=SYSTEM_PROMPT,
-        tools=TOOL_NAMES,
+        tools=active_tool_names,
         task_id=task.id,
         token_budget=token_budget,
         max_steps=task.max_steps,
@@ -69,7 +89,7 @@ def run_agent(
         grep_max_line_chars=sandbox.grep_max_line_chars,
         grep_max_file_bytes=sandbox.grep_max_file_bytes,
         seed=seed,
-        parameters=parameters,
+        parameters=extra_params,
     )
 
     messages: list[dict[str, Any]] = [
@@ -97,16 +117,20 @@ def run_agent(
 
         t0 = time.perf_counter()
         try:
-            response = llm.complete(messages=messages, tools=TOOL_SCHEMAS, seed=seed)
+            response = llm.complete(messages=messages, tools=active_schemas, seed=seed)
         except Exception as exc:
             stop_reason = "error"
             error_text = sanitize_error_message(str(exc))
             break
         latency_ms = max(0, int((time.perf_counter() - t0) * 1000))
 
-        prompt_tokens += response.usage.prompt_tokens
-        completion_tokens += response.usage.completion_tokens
-        if response.usage.source == "estimated":
+        step_prompt_tokens = response.usage.prompt_tokens
+        step_completion_tokens = response.usage.completion_tokens
+        step_estimated = response.usage.source == "estimated"
+
+        prompt_tokens += step_prompt_tokens
+        completion_tokens += step_completion_tokens
+        if step_estimated:
             any_estimated = True
 
         if not response.tool_calls:
@@ -144,7 +168,28 @@ def run_agent(
 
         tool_results: list[ToolResult] = []
         for tc in response.tool_calls:
-            result = sandbox.execute(tc)
+            delegate = subagent_runner is not None and (
+                should_delegate is None or should_delegate(tc)
+            )
+            if delegate and subagent_runner is not None:
+                remaining_budget = max(0, token_budget - (prompt_tokens + completion_tokens))
+                sub_res = subagent_runner.execute_tool_call(
+                    tc,
+                    fallback_query=task.prompt,
+                    remaining_global_budget=remaining_budget,
+                    seed=seed,
+                )
+                result = sub_res.tool_result
+                prompt_tokens += sub_res.usage.prompt_tokens
+                completion_tokens += sub_res.usage.completion_tokens
+                step_prompt_tokens += sub_res.usage.prompt_tokens
+                step_completion_tokens += sub_res.usage.completion_tokens
+                if sub_res.usage.source == "estimated":
+                    step_estimated = True
+                    any_estimated = True
+            else:
+                result = sandbox.execute(tc)
+
             tool_results.append(result)
             messages.append(
                 {
@@ -154,13 +199,18 @@ def run_agent(
                 }
             )
 
+        step_usage_source: UsageSource = "estimated" if step_estimated else "api"
         steps.append(
             Step(
                 index=step_index,
                 assistant_content=response.assistant_content,
                 tool_calls=list(response.tool_calls),
                 tool_results=tool_results,
-                usage=response.usage,
+                usage=Usage(
+                    prompt_tokens=step_prompt_tokens,
+                    completion_tokens=step_completion_tokens,
+                    source=step_usage_source,
+                ),
                 latency_ms=latency_ms,
             )
         )
@@ -181,7 +231,7 @@ def run_agent(
         trace_id=trace_id or f"tr_{uuid.uuid4().hex[:12]}",
         task_id=task.id,
         trial=trial,
-        agent_variant="baseline",
+        agent_variant=agent_variant,
         model=llm.model,
         config_hash=config_hash,
         steps=steps,
