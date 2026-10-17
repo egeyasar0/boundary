@@ -179,3 +179,31 @@ def test_run_summary_model() -> None:
         tasks=[task_summary],
     )
     assert summary.tasks[0].task_id == "task-1"
+
+
+def test_trace_error_sanitization_and_length_cap() -> None:
+    raw_err = (
+        "HTTP 401: Authorization: Bearer sk-live1234567890abcdef "
+        "api_key='nvapi-998877665544' headers={'Authorization': 'Bearer secret'} "
+        + ("X" * 600)
+    )
+    trace = Trace(
+        trace_id="tr_err",
+        task_id="t1",
+        trial=1,
+        model="m",
+        config_hash="0123456789abcdef",
+        steps=[],
+        final_answer=None,
+        passed=False,
+        total_usage=Usage(prompt_tokens=0, completion_tokens=0, source="api"),
+        stop_reason="error",
+        error=raw_err,
+    )
+    assert trace.error is not None
+    assert len(trace.error) <= 500
+    assert "sk-live1234567890abcdef" not in trace.error
+    assert "nvapi-998877665544" not in trace.error
+    assert "Bearer secret" not in trace.error
+    assert "[REDACTED]" in trace.error
+

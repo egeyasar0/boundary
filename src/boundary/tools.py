@@ -372,7 +372,11 @@ class ToolSandbox:
         args = tool_call.arguments
         name = tool_call.name
 
-        if name == "list_files":
+        if "__json_error__" in args:
+            content = (
+                f"Error: invalid JSON arguments for tool '{name}': {args['__json_error__']}"
+            )
+        elif name == "list_files":
             raw_path = args.get("path", ".")
             content = self.list_files(path=raw_path)
         elif name == "read_file":

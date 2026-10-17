@@ -4,13 +4,41 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 StopReason = Literal["final", "max_steps", "budget", "error"]
 UsageSource = Literal["api", "estimated"]
 CheckerType = Literal["contains_all", "regex", "exact_normalized"]
+
+MAX_ERROR_CHARS = 500
+
+_SECRET_PATTERNS: list[re.Pattern[str]] = [
+    re.compile(r"(?i)bearer\s+[a-z0-9._\-]+"),
+    re.compile(r"(?i)(authorization|x-api-key|api[-_]?key|secret)\s*[:=]\s*['\"]?[^\s,'\"\}]+['\"]?"),
+    re.compile(r"(?i)headers\s*=\s*\{[^}]*\}"),
+    re.compile(r"\b(sk|nvapi)-[A-Za-z0-9_\-]{6,}\b"),
+]
+
+
+def sanitize_error_message(
+    message: str,
+    *,
+    secrets: list[str] | None = None,
+    max_chars: int = MAX_ERROR_CHARS,
+) -> str:
+    """Scrub API keys, auth headers, and secrets from error text and cap at max_chars (R7)."""
+    cleaned = message
+    for secret in secrets or []:
+        if secret:
+            cleaned = cleaned.replace(secret, "[REDACTED]")
+    for pattern in _SECRET_PATTERNS:
+        cleaned = pattern.sub("[REDACTED]", cleaned)
+    if len(cleaned) > max_chars:
+        return cleaned[:max_chars]
+    return cleaned
 
 
 class Checker(BaseModel):
@@ -85,6 +113,14 @@ class Trace(BaseModel):
     passed: bool
     total_usage: Usage
     stop_reason: StopReason
+    error: str | None = None
+
+    @field_validator("error")
+    @classmethod
+    def _validate_and_sanitize_error(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        return sanitize_error_message(value)
 
 
 class TaskSummary(BaseModel):
