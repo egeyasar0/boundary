@@ -26,6 +26,7 @@ from boundary.runner import run_suite
 from boundary.synthesize import (
     VARIANT_CONFIG_FILENAME,
     load_or_build_profile_for_synthesis,
+    load_variant_config,
     save_variant_config,
     synthesize_variant,
 )
@@ -113,11 +114,26 @@ def run_cmd(
         float,
         typer.Option("--timeout", min=0.1, help="LLM request timeout in seconds."),
     ] = DEFAULT_TIMEOUT_SECONDS,
+    variant: Annotated[
+        Path | None,
+        typer.Option(
+            "--variant",
+            help="Optional path to variant_config.json for sub-agent boundary execution.",
+        ),
+    ] = None,
 ) -> None:
-    """Run single-agent baseline across tasks and trials, writing JSONL traces."""
+    """Run baseline or synthesized sub-agent variant across tasks and trials."""
     console = Console()
     task_list = load_tasks(tasks)
     llm = create_llm_client(model=model, base_url=base_url, timeout=timeout)
+
+    variant_config = None
+    if variant is not None:
+        try:
+            variant_config = load_variant_config(variant)
+        except FileNotFoundError as exc:
+            console.print(f"Variant config not found: {exc}")
+            raise typer.Exit(code=1) from None
 
     run_dir, traces = run_suite(
         tasks=task_list,
@@ -127,6 +143,7 @@ def run_cmd(
         trials=trials,
         token_budget=token_budget,
         seed=seed,
+        variant_config=variant_config,
     )
     console.print(f"Run completed: {run_dir} ({len(traces)} traces written)")
     summary = summarize_run(traces, run_id=run_dir.name, token_budget=token_budget)

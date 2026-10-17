@@ -1,4 +1,4 @@
-"""Task x trial benchmark runner and trace recorder (M5)."""
+"""Task x trial benchmark runner and trace recorder (M5, M11)."""
 
 from __future__ import annotations
 
@@ -10,7 +10,9 @@ from typing import Any
 
 from boundary.agent import run_agent
 from boundary.llm import LLMClient
-from boundary.models import Checker, Task, Trace
+from boundary.models import Checker, Task, ToolCall, Trace
+from boundary.subagent import SubagentRunner
+from boundary.synthesize import VariantConfig
 from boundary.tasks import evaluate_checker
 from boundary.tools import ToolSandbox
 from boundary.traces import init_trace_file, write_trace
@@ -23,6 +25,18 @@ def _make_answer_checker(checker: Checker) -> Callable[[str | None], bool]:
         return evaluate_checker(checker, ans)
 
     return _check
+
+
+def _make_delegation_predicate(
+    variant_config: VariantConfig,
+    task_id: str,
+) -> Callable[[ToolCall], bool]:
+    """Create a task-bound tool delegation predicate for `variant_config`."""
+
+    def _should_delegate(tc: ToolCall) -> bool:
+        return variant_config.should_delegate(task_id, tc)
+
+    return _should_delegate
 
 
 def generate_run_id() -> str:
@@ -43,6 +57,7 @@ def run_suite(
     seed: int | None = None,
     parameters: dict[str, Any] | None = None,
     run_id: str | None = None,
+    variant_config: VariantConfig | None = None,
 ) -> tuple[Path, list[Trace]]:
     """Execute all tasks across trials, writing JSONL traces to out_dir/<run_id>/traces.jsonl."""
     if trials < 1:
@@ -55,10 +70,32 @@ def run_suite(
     init_trace_file(run_dir)
 
     sandbox = ToolSandbox(root_dir)
+    sub_runner: SubagentRunner | None = None
+    agent_variant = "baseline"
+    if variant_config is not None:
+        agent_variant = variant_config.variant_name
+        sub_runner = SubagentRunner(
+            llm=llm,
+            sandbox=sandbox,
+            subagent_max_steps=variant_config.subagent_max_steps,
+            subagent_budget=variant_config.subagent_budget,
+            max_summary_tokens=variant_config.max_summary_tokens,
+        )
+
     traces: list[Trace] = []
 
     for task in tasks:
         check_fn = _make_answer_checker(task.checker)
+        task_schemas = (
+            variant_config.get_tool_schemas(task.id)
+            if variant_config is not None
+            else None
+        )
+        delegate_fn = (
+            _make_delegation_predicate(variant_config, task.id)
+            if variant_config is not None
+            else None
+        )
         for trial_num in range(1, trials + 1):
             trial_seed = (seed + trial_num - 1) if seed is not None else None
             trace = run_agent(
@@ -70,6 +107,10 @@ def run_suite(
                 seed=trial_seed,
                 parameters=parameters,
                 answer_checker=check_fn,
+                subagent_runner=sub_runner,
+                should_delegate=delegate_fn,
+                agent_variant=agent_variant,
+                tool_schemas=task_schemas,
             )
             write_trace(run_dir, trace)
             traces.append(trace)

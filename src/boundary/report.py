@@ -141,8 +141,13 @@ def render_report(summary: RunSummary, *, console: Console | None = None) -> str
     buf = StringIO()
     out_console = Console(file=buf, width=260, force_terminal=False)
 
+    report_label = (
+        "Boundary Baseline Report"
+        if summary.agent_variant == "baseline"
+        else f"Boundary Variant Report ({summary.agent_variant})"
+    )
     table = Table(
-        title=f"Boundary Baseline Report - {summary.run_id} (model: {summary.model})",
+        title=escape(f"{report_label} - {summary.run_id} (model: {summary.model})"),
         box=box.ASCII,
     )
     table.add_column("Task ID", style="bold", no_wrap=True)
