@@ -129,14 +129,19 @@ def compute_config_hash(
     seed: int | None = None,
     parameters: dict[str, Any] | None = None,
 ) -> str:
-    """Compute a deterministic SHA-256 prefix for run reproducibility (R6)."""
+    """Compute a deterministic SHA-256 prefix for run reproducibility (R6, R7)."""
+    safe_params = {
+        k: v
+        for k, v in (parameters or {}).items()
+        if "api_key" not in k.lower() and "secret" not in k.lower()
+    }
     payload = {
         "model": model,
         "system_prompt": system_prompt,
         "tools": sorted(tools),
         "task_id": task_id,
         "seed": seed,
-        "parameters": parameters or {},
+        "parameters": safe_params,
     }
     serialized = json.dumps(payload, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(serialized.encode("utf-8")).hexdigest()[:16]

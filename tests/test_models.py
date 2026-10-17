@@ -76,6 +76,10 @@ def test_trace_round_trip_and_stop_reason() -> None:
     assert restored.agent_variant == "baseline"
     assert restored.total_usage.total == 120
 
+    for valid_reason in ("final", "max_steps", "budget", "error"):
+        t = trace.model_copy(update={"stop_reason": valid_reason})
+        assert Trace.model_validate_json(t.model_dump_json()).stop_reason == valid_reason
+
     with pytest.raises(ValidationError):
         Trace(
             trace_id="tr_bad",
@@ -91,35 +95,33 @@ def test_trace_round_trip_and_stop_reason() -> None:
         )
 
 
-def test_compute_config_hash_determinism_and_system_prompt() -> None:
-    h1 = compute_config_hash(
-        model="test-model",
-        system_prompt="You are a baseline agent.",
-        tools=["read_file", "list_files", "grep"],
-        task_id="task-1",
-        seed=42,
-        parameters={"temperature": 0.0},
-    )
+def test_compute_config_hash_all_fields_and_no_api_key() -> None:
+    base_kwargs = {
+        "model": "test-model",
+        "system_prompt": "You are a baseline agent.",
+        "tools": ["read_file", "list_files", "grep"],
+        "task_id": "task-1",
+        "seed": 42,
+        "parameters": {"temperature": 0.0},
+    }
+    h1 = compute_config_hash(**base_kwargs)  # type: ignore[arg-type]
     h2 = compute_config_hash(
         model="test-model",
         system_prompt="You are a baseline agent.",
         tools=["grep", "list_files", "read_file"],
         task_id="task-1",
         seed=42,
-        parameters={"temperature": 0.0},
+        parameters={"temperature": 0.0, "api_key": "sk-secret-do-not-hash"},
     )
     assert h1 == h2
     assert len(h1) == 16
 
-    h_diff_prompt = compute_config_hash(
-        model="test-model",
-        system_prompt="Different system prompt.",
-        tools=["read_file", "list_files", "grep"],
-        task_id="task-1",
-        seed=42,
-        parameters={"temperature": 0.0},
-    )
-    assert h1 != h_diff_prompt
+    assert compute_config_hash(**{**base_kwargs, "model": "other-model"}) != h1  # type: ignore[arg-type]
+    assert compute_config_hash(**{**base_kwargs, "system_prompt": "Other"}) != h1  # type: ignore[arg-type]
+    assert compute_config_hash(**{**base_kwargs, "tools": ["read_file"]}) != h1  # type: ignore[arg-type]
+    assert compute_config_hash(**{**base_kwargs, "task_id": "task-2"}) != h1  # type: ignore[arg-type]
+    assert compute_config_hash(**{**base_kwargs, "seed": 99}) != h1  # type: ignore[arg-type]
+    assert compute_config_hash(**{**base_kwargs, "parameters": {"temperature": 0.7}}) != h1  # type: ignore[arg-type]
 
 
 def test_run_summary_model() -> None:
