@@ -9,6 +9,8 @@ from typing import Annotated, Any
 import typer
 from rich.console import Console
 
+from boundary.compare import compare_runs, render_comparison_report
+from boundary.export_pr import export_refactor_pr
 from boundary.llm import DEFAULT_TIMEOUT_SECONDS, LLMClient, OpenAICompatClient
 from boundary.models import sanitize_error_message
 from boundary.profile import (
@@ -123,7 +125,7 @@ def run_cmd(
     ] = None,
 ) -> None:
     """Run baseline or synthesized sub-agent variant across tasks and trials."""
-    console = Console()
+    console = Console(soft_wrap=True)
     task_list = load_tasks(tasks)
     llm = create_llm_client(model=model, base_url=base_url, timeout=timeout)
 
@@ -162,7 +164,7 @@ def report_cmd(
     ] = DEFAULT_REPORT_TOKEN_BUDGET,
 ) -> None:
     """Render cost-quality and stop_reason summary report for an existing run."""
-    console = Console()
+    console = Console(soft_wrap=True)
     try:
         traces = read_traces(run_path)
     except FileNotFoundError:
@@ -215,7 +217,7 @@ def profile_cmd(
     ] = Path("tasks/repo_qa"),
 ) -> None:
     """Profile trace context carry cost, reuse ratio, and parallelization opportunities (M8)."""
-    console = Console()
+    console = Console(soft_wrap=True)
     try:
         traces = read_traces(run_dir)
     except FileNotFoundError:
@@ -266,7 +268,7 @@ def synthesize_cmd(
     ] = None,
 ) -> None:
     """Deterministically synthesize a sub-agent VariantConfig from profile.json (M10 — R13)."""
-    console = Console()
+    console = Console(soft_wrap=True)
     try:
         profile, path_lookup, base_dir = load_or_build_profile_for_synthesis(run_dir)
     except FileNotFoundError as exc:
@@ -279,6 +281,83 @@ def synthesize_cmd(
     console.print(
         f"Synthesized variant '{config.variant_name}' with {len(config.rules)} task rule(s) "
         f"-> {written_path}"
+    )
+
+
+@app.command("compare")
+def compare_cmd(
+    baseline_dir: Annotated[
+        Path,
+        typer.Argument(help="Path to baseline run directory or JSONL trace file."),
+    ],
+    variant_dir: Annotated[
+        Path,
+        typer.Argument(help="Path to variant run directory or JSONL trace file."),
+    ],
+    token_budget: Annotated[
+        int,
+        typer.Option("--token-budget", min=1, help="Equal token budget reference (R14)."),
+    ] = DEFAULT_REPORT_TOKEN_BUDGET,
+    json_out: Annotated[
+        bool,
+        typer.Option("--json", help="Print JSON comparison report instead of Rich table."),
+    ] = False,
+) -> None:
+    """Compare baseline and variant runs under equal token budget with R14/R15 verdicts (M12)."""
+    console = Console(soft_wrap=True)
+    try:
+        report = compare_runs(baseline_dir, variant_dir, token_budget=token_budget)
+    except (FileNotFoundError, ValueError) as exc:
+        console.print(f"Comparison failed: {exc}")
+        raise typer.Exit(code=1) from None
+
+    if json_out:
+        typer.echo(report.model_dump_json(indent=2))
+    else:
+        render_comparison_report(report, console=console)
+
+
+@app.command("export-pr")
+def export_pr_cmd(
+    variant_config: Annotated[
+        Path,
+        typer.Argument(help="Path to synthesized variant_config.json file."),
+    ],
+    out: Annotated[
+        Path,
+        typer.Option("--out", help="Output directory for patch and PULL_REQUEST.md."),
+    ] = Path("pr_output"),
+    baseline_dir: Annotated[
+        Path | None,
+        typer.Option("--baseline", help="Optional baseline run directory for comparison table."),
+    ] = None,
+    variant_dir: Annotated[
+        Path | None,
+        typer.Option("--variant-run", help="Optional variant run directory for comparison table."),
+    ] = None,
+    token_budget: Annotated[
+        int,
+        typer.Option("--token-budget", min=1, help="Equal token budget reference."),
+    ] = DEFAULT_REPORT_TOKEN_BUDGET,
+) -> None:
+    """Export deterministic refactor patch and PULL_REQUEST.md for a VariantConfig (M13 — R16)."""
+    console = Console(soft_wrap=True)
+    try:
+        result = export_refactor_pr(
+            variant_config,
+            out,
+            baseline_run_dir=baseline_dir,
+            variant_run_dir=variant_dir,
+            token_budget=token_budget,
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        console.print(f"Export failed: {exc}")
+        raise typer.Exit(code=1) from None
+
+    console.print(
+        f"Exported PR artifacts for variant '{result.variant_name}' "
+        f"({result.rule_count} rule(s)) -> {result.out_dir} "
+        f"({result.patch_path.name}, {result.pr_markdown_path.name})"
     )
 
 
@@ -301,7 +380,7 @@ def check_cmd(
     ] = DEFAULT_TIMEOUT_SECONDS,
 ) -> None:
     """Verify LLM endpoint reachability and native tool-calling support."""
-    console = Console()
+    console = Console(soft_wrap=True)
     llm = create_llm_client(model=model, base_url=base_url, timeout=timeout)
 
     t0 = time.perf_counter()

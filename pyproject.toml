@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "boundary"
 version = "0.1.0"
 description = "Measure whether an agent system needs sub-agent boundaries"
-readme = "briefs/boundary.md"
+readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "pydantic>=2.0",
